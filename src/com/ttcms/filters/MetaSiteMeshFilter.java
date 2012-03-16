@@ -11,7 +11,7 @@ import org.sitemesh.webapp.WebAppContext;
 /**
  * Servlet Filter implementation class RorSiteMeshFilter
  */
-public class RorSiteMeshFilter extends ConfigurableSiteMeshFilter {
+public class MetaSiteMeshFilter extends ConfigurableSiteMeshFilter {
 
 	private final String DECORATOR_PREFIX = "/WEB-INF/templates/";
 	private final String DECORATOR_SUFFIX = ".jsp";

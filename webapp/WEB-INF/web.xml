@@ -10,7 +10,7 @@
   </filter>
   <filter>
     <filter-name>sitemesh</filter-name>
-    <filter-class>com.ttcms.filters.RorSiteMeshFilter</filter-class>
+    <filter-class>com.ttcms.filters.MetaSiteMeshFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>nutzfilter</filter-name>
@@ -37,13 +37,5 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
-  <filter>
-    <display-name>RorSiteMeshFilter</display-name>
-    <filter-name>RorSiteMeshFilter</filter-name>
-    <filter-class>com.ttcms.filters.RorSiteMeshFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>RorSiteMeshFilter</filter-name>
-    <url-pattern>/RorSiteMeshFilter</url-pattern>
-  </filter-mapping>
+
 </web-app>
