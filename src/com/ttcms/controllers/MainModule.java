@@ -9,5 +9,6 @@ import org.nutz.mvc.ioc.provider.ComboIocProvider;
 @IocBy(type= ComboIocProvider.class,args={"*org.nutz.ioc.loader.annotation.AnnotationIocLoader","com.ttcms.services","com.ttcms.controllers"})
 public class MainModule {
 	
+	public static int max = 20;
 	
 }

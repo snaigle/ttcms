@@ -5,6 +5,7 @@ import java.util.List;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.dao.pager.Pager;
+import org.nutz.mvc.annotation.Param;
 
 import com.ttcms.domains.News;
 import com.ttcms.utils.form.PageForm;
@@ -18,40 +19,25 @@ public class NewsController {
 	 * params: offset,max
 	 * @return
 	 */
-	public String list() {
-		PageForm pf = new PageForm();
-		Pager pager =  dao.createPager(0,0);
-		List<News> results= dao.query(News.class, Cnd.orderBy().desc("createTime"),pager);
-		int total = dao.count(News.class);
-		if(total == 0)
-			return "empty";
-		return "say hello";
+	public PageForm<News> list(@Param("offset")int offset , @Param("max")int max ) {
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("createTime"), offset, max);
+		return pf;
 	}
 	/**
 	 * params: offset,max,tag
 	 * @return
 	 */
-	public String listByTag() {
-		PageForm pf = new PageForm();
-		Pager pager =  dao.createPager(0,0);
-		List<News> results= dao.query(News.class, Cnd.orderBy().desc("createTime"),pager);
-		int total = dao.count(News.class);
-		if(total == 0)
-			return "empty";
-		return "say hello";
+	public PageForm<News>  listByTag(@Param("offset")int offset , @Param("max")int max,@Param("tag")int tag) {
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("createTime"), offset, max);
+		return pf;
 	}
 	/**
 	 * params: offset,max,category
 	 * @return
 	 */
-	public String listByCategory() {
-		PageForm pf = new PageForm();
-		Pager pager =  dao.createPager(0,0);
-		List<News> results= dao.query(News.class, Cnd.orderBy().desc("createTime"),pager);
-		int total = dao.count(News.class);
-		if(total == 0)
-			return "empty";
-		return "say hello";
+	public PageForm<News>  listByCategory(@Param("offset")int offset , @Param("max")int max,@Param("cat")int category) {
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("createTime"), offset, max);
+		return pf;
 	}
 	/**
 	 * params: offset,max,keyword
