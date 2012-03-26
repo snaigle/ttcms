@@ -2,10 +2,22 @@ package com.ttcms.utils.form;
 
 import java.util.List;
 
+import org.nutz.dao.pager.Pager;
+
 public class PageForm {
 
-	public List<Object>  results;
-	public Integer total = 0;  // 总条数
-	public Integer max = 0 ; // 每页大小
-	public Integer offset = 0; // 当前页
+	private List<Object>  results;
+	private Pager pager ;
+	public List<Object> getResults() {
+		return results;
+	}
+	public void setResults(List<Object> results) {
+		this.results = results;
+	}
+	public Pager getPager() {
+		return pager;
+	}
+	public void setPager(Pager pager) {
+		this.pager = pager;
+	}
 }
