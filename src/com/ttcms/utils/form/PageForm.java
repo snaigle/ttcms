@@ -29,9 +29,10 @@ public class PageForm<T> {
 		  PageForm<T> pf = new PageForm<T>();
 		  if (offset<1) offset = 1;
 		  if(max <1 ) max = MainModule.max;
-		  Pager pager = dao.createPager(offset*max-max,max);
+		  Pager pager = dao.createPager(offset,max);
 		  List<T> results = dao.query(clazz, cnd, pager);
-		  pager.setRecordCount(dao.count(clazz, cnd));
+		  int count = dao.count(clazz,cnd);
+		  pager.setRecordCount(count);
 		  pf.setPager(pager);
 		  pf.setResults(results);
 		  return pf;
