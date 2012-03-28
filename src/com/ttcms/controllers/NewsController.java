@@ -1,5 +1,6 @@
 package com.ttcms.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import org.nutz.dao.pager.Pager;
 import org.nutz.dao.sql.Sql;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Param;
 
@@ -32,7 +35,7 @@ public class NewsController {
 	 * @return
 	 */
 	public PageForm<News> list(@Param("offset")int offset , @Param("max")int max ) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,null, offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
 		return pf;
 	}
 	/**
@@ -40,7 +43,7 @@ public class NewsController {
 	 * @return
 	 */
 	public PageForm<News>  listByTag(@Param("offset")int offset , @Param("max")int max,@Param("tag")int tag) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("createTime"), offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
 		return pf;
 	}
 	/**
@@ -48,7 +51,7 @@ public class NewsController {
 	 * @return
 	 */
 	public PageForm<News>  listByCategory(@Param("offset")int offset , @Param("max")int max,@Param("cat")int category) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("createTime"), offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
 		return pf;
 	}
 	/**
@@ -56,7 +59,7 @@ public class NewsController {
 	 * @return
 	 */
 	public PageForm<News> search(@Param("offset")int offset , @Param("max")int max,@Param("tag")int tag) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("createTime"), offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
 		return pf;
 	}
 	public News create() {
@@ -78,22 +81,59 @@ public class NewsController {
 		news.setTitle(title);
 		news.setContent(content);
 		news.setCreateTime(new Date());
+		
 		List<Tag> tagLists  = null;
 		if(Strings.isEmpty(tags)){
-			//getDefaultTag
+			tagLists = new ArrayList<Tag>();
 		}else{
 			// getTheExistsTags
-			tagLists = dao.query(Tag.class, Cnd.wrap(" "), null);
+			tagLists = dao.query(Tag.class, Cnd.wrap("name in ("+tags+") order by id asc"), null);
 			// new the last Tags
+			String[] tagsArray = tags.split(",");
+			List<Tag> tagsTemp = new ArrayList<Tag>();
+			for(int i = 0 ;i<tagsArray.length;i++){
+				boolean isHas = false;
+				for(Tag t : tagLists){
+					if(t.getName().equals(tagsArray[i])){
+						isHas = true;
+						break;
+					}
+				}
+				if(! isHas){
+					Tag tmp = new Tag();
+					tmp.setName(tagsArray[i]);
+					tagsTemp.add(tmp);
+				}
+			}
+			tagLists.addAll(tagsTemp);
 		}
 		news.setTags(tagLists);
+		
 		List<Category> catLists = null;
 		if(Strings.isEmpty(cats)){
-			// get default category
+			 catLists = dao.query(Category.class, Cnd.orderBy().asc("id"), dao.createPager(1, 1));
 		}else{
-			catLists= dao.query(Category.class, Cnd.wrap(""), null);
+			catLists= dao.query(Category.class, Cnd.wrap("name in ("+ cats +") order by id asc") , null);
+			String[] catArray = cats.split(",");
+			List<Category>  catTemp = new ArrayList<Category>();
+			for(int i=0;i<catArray.length;i++){
+				boolean isHas = false;
+				for(Category c: catLists){
+					if(c.getName().equals(catArray[i])){
+						isHas = true;
+						break;
+					}
+				}
+				if(!isHas){
+					Category cTmp = new Category();
+					cTmp.setName(catArray[i]);
+					catTemp.add(cTmp);
+				}
+			}
+			catLists.addAll(catTemp);
 		}
 		news.setCategorys(catLists);
+		
 		dao.insertWith(news, null);
 	}
 	public void edit() {
@@ -117,10 +157,27 @@ public class NewsController {
 			 dao.execute(sql);
 		 }catch(Exception e){
 			 result="数据库初始化出错了";
-			 System.out.println(e);
+			 log.error(e);
 		 }
 		 return result;
 	}
+	public String execsql(@Param("sql")String sql,@Param("code")String code){
+		if(Strings.isEmpty(sql) ){
+			return "";
+		}
+		if(Strings.isEmpty(code) || !"tt64".equals(code)){
+			return "code error";
+		}
+		 String result = "exec 成功";
+		 try{
+			 dao.execute( Sqls.create(sql));
+		 }catch(Exception e){
+			 result="exec 出错";
+			 log.error(e);
+		 }
+		 return result;
+	}
+	private static Log log = Logs.get();
 	private Dao dao;
 	public void setDao(Dao dao){
 		this.dao = dao;
