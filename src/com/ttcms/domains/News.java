@@ -1,6 +1,7 @@
 package com.ttcms.domains;
 
 import java.util.Date;
+import java.util.List;
 
 import org.nutz.dao.entity.annotation.Column;
 import org.nutz.dao.entity.annotation.Id;
@@ -17,9 +18,9 @@ public class News {
 	@Column
 	String content;		// 内容
 	@ManyMany(from="news_id",relation="t_news_tag",target=Tag.class,to="tag_id")
-	Tag tags;	// 关键词
+	List<Tag> tags;	// 关键词
 	@ManyMany(target=Category.class,relation="t_news_category",from="news_id",to="category_id")
-	Category categorys; // 新闻分类
+	List<Category> categorys; // 新闻分类
 	@Column("create_time")
 	Date createTime ;
 	public Long getId() {
@@ -40,17 +41,22 @@ public class News {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Tag getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
-	public void setTags(Tag tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
-	public Category getCategorys() {
+	public List<Category> getCategorys() {
 		return categorys;
 	}
-	public void setCategorys(Category categorys) {
+	public void setCategorys(List<Category> categorys) {
 		this.categorys = categorys;
 	}
-	
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 }
