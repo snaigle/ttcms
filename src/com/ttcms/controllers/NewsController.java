@@ -18,6 +18,7 @@ import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
 import com.ttcms.domains.Category;
@@ -27,7 +28,7 @@ import com.ttcms.utils.form.PageForm;
 
 public class NewsController {
 
-	@At(">>:/news/list")
+	@Ok(">>:/news/list")
 	public void index(){
 	}
 	/**
@@ -35,7 +36,11 @@ public class NewsController {
 	 * @return
 	 */
 	public PageForm<News> list(@Param("offset")int offset , @Param("max")int max ) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,null, offset, max);
+		for(News news : pf.getResults()){
+			dao.fetchLinks(news, "tags");
+			dao.fetchLinks(news, "categorys");
+		}
 		return pf;
 	}
 	/**
@@ -70,7 +75,9 @@ public class NewsController {
 		news.setCategorys(cats);
 		return news;
 	}
+	@Ok(">>:/news/list")
 	public void save(@Param("title")String title,@Param("content")String content,@Param("tags")String tags,@Param("cats")String cats) {
+		log.debug("save start");
 		if(Strings.isEmpty(title)){
 			title = new Datetime2String().cast(new Date(),null, "yyyy年MM月dd日")+"  留念";
 		}
@@ -86,8 +93,10 @@ public class NewsController {
 		if(Strings.isEmpty(tags)){
 			tagLists = new ArrayList<Tag>();
 		}else{
+			String tagsIn = "'"+tags+"'";
+			tagsIn.replaceAll(",", "','");
 			// getTheExistsTags
-			tagLists = dao.query(Tag.class, Cnd.wrap("name in ("+tags+") order by id asc"), null);
+			tagLists = dao.query(Tag.class, Cnd.wrap("name in ("+tagsIn+") order by id asc"), null);
 			// new the last Tags
 			String[] tagsArray = tags.split(",");
 			List<Tag> tagsTemp = new ArrayList<Tag>();
@@ -113,7 +122,9 @@ public class NewsController {
 		if(Strings.isEmpty(cats)){
 			 catLists = dao.query(Category.class, Cnd.orderBy().asc("id"), dao.createPager(1, 1));
 		}else{
-			catLists= dao.query(Category.class, Cnd.wrap("name in ("+ cats +") order by id asc") , null);
+			String catsIn = "'"+cats + "'";
+			catsIn.replaceAll(",","','");
+			catLists= dao.query(Category.class, Cnd.wrap("name in ("+ catsIn +") order by id asc") , null);
 			String[] catArray = cats.split(",");
 			List<Category>  catTemp = new ArrayList<Category>();
 			for(int i=0;i<catArray.length;i++){
@@ -133,8 +144,9 @@ public class NewsController {
 			catLists.addAll(catTemp);
 		}
 		news.setCategorys(catLists);
-		
+		log.debug("insert start");
 		dao.insertWith(news, null);
+		log.debug("insert stop");
 	}
 	public void edit() {
 		

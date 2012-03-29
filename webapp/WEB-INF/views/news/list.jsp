@@ -11,12 +11,18 @@
 		<c:forEach items="${obj.results }"  var="it">
 		 	<div class="row">
 		 			<div class="span12">
-		 					${it.title }
-		 			</div>
-		 	</div>
-		 	<div class="row-fluid">
-		 			<div class="span12">
-		 					${it.content }
+		 					<h2>${it.title }</h2>
+		 					<p>
+		 						<c:forEach items="${it.tags }" var="t">
+		 								${t.name },
+		 						</c:forEach>
+		 					</p>
+		 					<p>
+		 						<c:forEach items="${it.categorys}" var="c">
+		 								${c.name },
+		 						</c:forEach>
+		 					</p>
+		 					<p>${it.content }</p>
 		 			</div>
 		 	</div>
 		</c:forEach>
