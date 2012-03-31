@@ -5,25 +5,23 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.nutz.castor.castor.Datetime2String;
+import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
-import org.nutz.dao.pager.Pager;
 import org.nutz.dao.sql.Sql;
-import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
-import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
 import com.ttcms.domains.Category;
 import com.ttcms.domains.News;
 import com.ttcms.domains.Tag;
+import com.ttcms.utils.RedirectView;
 import com.ttcms.utils.form.PageForm;
 
 public class NewsController {
@@ -77,7 +75,6 @@ public class NewsController {
 	}
 	@Ok(">>:/news/list")
 	public void save(@Param("title")String title,@Param("content")String content,@Param("tags")String tags,@Param("cats")String cats) {
-		log.debug("save start");
 		if(Strings.isEmpty(title)){
 			title = new Datetime2String().cast(new Date(),null, "yyyy年MM月dd日")+"  留念";
 		}
@@ -99,7 +96,6 @@ public class NewsController {
 			tagLists = dao.query(Tag.class, Cnd.wrap("name in ("+tagsIn+") order by id asc"), null);
 			// new the last Tags
 			String[] tagsArray = tags.split(",");
-			List<Tag> tagsTemp = new ArrayList<Tag>();
 			for(int i = 0 ;i<tagsArray.length;i++){
 				boolean isHas = false;
 				for(Tag t : tagLists){
@@ -111,10 +107,10 @@ public class NewsController {
 				if(! isHas){
 					Tag tmp = new Tag();
 					tmp.setName(tagsArray[i]);
-					tagsTemp.add(tmp);
+					dao.insert(tmp);
+					tagLists.add(tmp);
 				}
 			}
-			tagLists.addAll(tagsTemp);
 		}
 		news.setTags(tagLists);
 		
@@ -126,7 +122,6 @@ public class NewsController {
 			catsIn.replaceAll(",","','");
 			catLists= dao.query(Category.class, Cnd.wrap("name in ("+ catsIn +") order by id asc") , null);
 			String[] catArray = cats.split(",");
-			List<Category>  catTemp = new ArrayList<Category>();
 			for(int i=0;i<catArray.length;i++){
 				boolean isHas = false;
 				for(Category c: catLists){
@@ -138,18 +133,32 @@ public class NewsController {
 				if(!isHas){
 					Category cTmp = new Category();
 					cTmp.setName(catArray[i]);
-					catTemp.add(cTmp);
+					dao.insert(cTmp);
+					catLists.add(cTmp);
 				}
 			}
-			catLists.addAll(catTemp);
 		}
 		news.setCategorys(catLists);
-		log.debug("insert start");
-		dao.insertWith(news, null);
-		log.debug("insert stop");
-	}
-	public void edit() {
+		dao.insert(news);
 		
+		for(Tag tt : tagLists){
+			 dao.insert("t_news_tag", Chain.make("news_id", news.getId()).add("tag_id", tt.getId()));
+		}
+		for(Category cc : catLists){
+			dao.insert("t_news_category" , Chain.make("news_id", news.getId()).add("category_id", cc.getId()));
+		}
+	}
+	public Object edit(@Param("id")long id) {
+		News news = dao.fetch(News.class,id);
+		if(news == null){
+			// 提示出错
+			return new RedirectView("/news/list");
+		}
+		dao.fetchLinks(news, "tags");
+		dao.fetchLinks(news, "categorys");
+		List<Tag> tags = dao.query(Tag.class, null, null);
+		List<Category> cats = dao.query(Category.class,null,null);
+		return news;
 	}
 	public void update() {
 		
