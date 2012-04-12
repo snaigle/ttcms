@@ -9,6 +9,7 @@ import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.At;
+import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
 @At("/admin/function")
@@ -19,6 +20,7 @@ public class FunctionController {
 	 * @param ctx
 	 * @return
 	 */
+	@Ok("jsp:admin.function.init")
 	public String init(ServletContext ctx){
 		
 		 String initSql = ctx.getRealPath("/WEB-INF/classes/dbinit.sql");
@@ -38,6 +40,7 @@ public class FunctionController {
 	 * @param code
 	 * @return
 	 */
+	@Ok("jsp:admin.function.exesql")
 	public String execsql(@Param("sql")String sql,@Param("code")String code){
 		if(Strings.isEmpty(sql) ){
 			return "";

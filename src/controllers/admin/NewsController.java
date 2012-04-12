@@ -28,13 +28,14 @@ import domains.Tag;
 @At("/admin/news")
 public class NewsController {
 
-	@Ok(">>:/news/list")
+	@Ok(">>:/admin/news/list")
 	public void index(){
 	}
 	/**
 	 * params: offset,max
 	 * @return
 	 */
+	@Ok("jsp:admin.news.list")
 	public PageForm<News> list(@Param("offset")int offset , @Param("max")int max ) {
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,null, offset, max);
 		for(News news : pf.getResults()){
@@ -47,6 +48,7 @@ public class NewsController {
 	 * params: offset,max,tag
 	 * @return
 	 */
+	@Ok("jsp:admin.news.list")
 	public PageForm<News>  listByTag(@Param("offset")int offset , @Param("max")int max,@Param("tag")int tag) {
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
 		return pf;
@@ -55,6 +57,7 @@ public class NewsController {
 	 * params: offset,max,category
 	 * @return
 	 */
+	@Ok("jsp:admin.news.list")
 	public PageForm<News>  listByCategory(@Param("offset")int offset , @Param("max")int max,@Param("cat")int category) {
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
 		return pf;
@@ -63,10 +66,12 @@ public class NewsController {
 	 * params: offset,max,keyword
 	 * @return
 	 */
+	@Ok("jsp:admin.news.list")
 	public PageForm<News> search(@Param("offset")int offset , @Param("max")int max,@Param("tag")int tag) {
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
 		return pf;
 	}
+	@Ok("jsp:admin.news.create")
 	public News create() {
 		News news = new News();
 		List<Tag> tags = dao.query(Tag.class, null, null);
@@ -118,7 +123,7 @@ public class NewsController {
 		}
 		return news.getId();
 	}
-	
+	@Ok("jsp:admin.news.edit")
 	public Object edit(@Param("id")long id) {
 		News news = dao.fetch(News.class,id);
 		if(news == null){
