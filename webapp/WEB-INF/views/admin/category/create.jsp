@@ -2,41 +2,19 @@
 <%@ taglib uri="/WEB-INF/c.tld" prefix="c" %>
 <html>
 	<head>
-		<title>增加文章</title>
+		<title>增加类别</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<meta name="layout" content="main"/>
+		<meta name="layout" content="adminmain"/>
 	</head>
 <body>
 		 	<div class="row">
 		 			<div class="span12">
-		 				<form action="${base }/news/save" method="post">
+		 				<form action="${base }/admin/category/save" method="post">
 		 					<table>
 		 						<tbody>
 		 							<tr>
-		 								<td>标题:</td>
-		 								<td><input  name="title" /></td>
-		 							</tr>
-		 							<tr>
-		 								<td>标签:</td>
-		 									
-		 								<td>
-		 								<c:forEach items="${obj.tags }" var = "t">
-		 										${t.name },
-		 									</c:forEach>
-		 								<input  name="tags" />
-		 								</td>
-		 							</tr>
-		 							<tr>
-		 								<td>分类:</td>
-		 								<td>
-		 								<c:forEach items="${obj.categorys }" var = "c">
-		 										${c.name },
-		 									</c:forEach>
-		 								<input  name="cats" /></td>
-		 							</tr>
-		 							<tr>
-		 								<td> 内容:</td>
-		 								<td><textarea name="content" rows="10" cols="30"></textarea>  </td>
+		 								<td>名称:</td>
+		 								<td><input  name="name" /></td>
 		 							</tr>
 		 							<tr>
 		 								<td colspan="2"><input type="submit"  value="提交"/></td>

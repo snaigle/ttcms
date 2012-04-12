@@ -2,48 +2,40 @@
 <%@ taglib uri="/WEB-INF/c.tld" prefix="c" %>
 <html>
 	<head>
-		<title>增加文章</title>
+		<title>类别列表</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<meta name="layout" content="main"/>
+		<meta name="layout" content="adminmain"/>
 	</head>
 <body>
 		 	<div class="row">
 		 			<div class="span12">
-		 				<form action="${base }/news/save" method="post">
-		 					<table>
+		 				<c:if test="${obj.results.size() != 0 }">
+		 				<form action="${base }/admin/category/deleteAll" method="post">
+		 					<table width="100%">
+		 						<thead>
+		 							<th>
+		 								<td><input type="checkbox" >全选</td>
+		 								<td>名称</td>
+		 								<td>操作</td>
+		 							</th>
+		 						</thead>
 		 						<tbody>
+		 							<c:each items="${obj.results }" var="cat"></c:each>
 		 							<tr>
-		 								<td>标题:</td>
-		 								<td><input  name="title" /></td>
-		 							</tr>
-		 							<tr>
-		 								<td>标签:</td>
-		 									
+		 								<td><input type="checkbox" name="ids" value="${cat.id }"></td>
+		 								<td>${cat.name }</td>
 		 								<td>
-		 								<c:forEach items="${obj.tags }" var = "t">
-		 										${t.name },
-		 									</c:forEach>
-		 								<input  name="tags" />
-		 								</td>
-		 							</tr>
-		 							<tr>
-		 								<td>分类:</td>
-		 								<td>
-		 								<c:forEach items="${obj.categorys }" var = "c">
-		 										${c.name },
-		 									</c:forEach>
-		 								<input  name="cats" /></td>
-		 							</tr>
-		 							<tr>
-		 								<td> 内容:</td>
-		 								<td><textarea name="content" rows="10" cols="30"></textarea>  </td>
-		 							</tr>
-		 							<tr>
-		 								<td colspan="2"><input type="submit"  value="提交"/></td>
+		 									<a href="${base }/admin/category/edit?id=${cat.id}">编辑</a>
+		 									<a href="${base }/admin/category/delete?id=${cat.id}">删除</a>
+										</td>
 		 							</tr>
 		 						</tbody>
 		 					</table>
-		 					 </form>
+	 					</form>
+	 					</c:if>
+	 					<c:if test="${obj.results.size() != 0 }">
+	 						没有类别，去<a href="${base }/admin/category/create">添加</a>
+	 					</c:if>
 		 			</div>
 		 	</div>
 </body>

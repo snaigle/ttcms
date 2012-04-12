@@ -3,7 +3,7 @@
 	<head>
 		<title>数据库初始化</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<meta name="layout" content="main"/>
+		<meta name="layout" content="adminmain"/>
 	</head>
 <body>
 		 	<div class="row">

@@ -2,7 +2,7 @@
 <%@ taglib uri="/WEB-INF/c.tld" prefix="c" %>
 <html>
 	<head>
-		<title>新闻列表</title>
+		<title>文章列表</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="layout" content="main"/>
 	</head>
@@ -30,7 +30,7 @@
 	<c:if test="${obj.results.size() ==0 }">
 		<div class="row">
 			<div class="span12">
-				没有新闻
+				没有文章，去<a href="${base }/admin/news/create">添加</a>
 			</div>
 		</div>
 	</c:if>
