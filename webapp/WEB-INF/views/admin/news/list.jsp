@@ -1,31 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="/WEB-INF/c.tld" prefix="c" %>
+<%@ taglib uri="/WEB-INF/fmt.tld" prefix="fmt" %>
 <html>
 	<head>
 		<title>文章列表</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<meta name="layout" content="main"/>
+		<meta name="layout" content="adminmain"/>
 	</head>
 <body>
 	<c:if test="${obj.results.size() >0 }">
+		<table >
+		<thead>
+			<tr>
+				<td> <input type="checkbox" /> 全选</td>
+				<td>标题</td>
+				<td>标签</td>
+				<td>分类</td>
+				<td>日期</td>
+				<td>操作</td>
+			</tr>
+		</thead>
+		<tbody>
 		<c:forEach items="${obj.results }"  var="it">
-		 	<div class="row">
-		 			<div class="span12">
-		 					<h2>${it.title }</h2>
-		 					<p>
+			<tr>
+							<td><input name="ids" type="checkbox" value="${it.id }"/></td>
+		 					<td>${it.title }</td>
+		 					<td>
 		 						<c:forEach items="${it.tags }" var="t">
-		 								${t.name },
+		 								${t.name }&nbsp;&nbsp;&nbsp;&nbsp;
 		 						</c:forEach>
-		 					</p>
-		 					<p>
+		 					</td>
+		 					<td>
 		 						<c:forEach items="${it.categorys}" var="c">
-		 								${c.name },
+		 								${c.name }&nbsp;&nbsp;&nbsp;&nbsp;
 		 						</c:forEach>
-		 					</p>
-		 					<p>${it.content }</p>
-		 			</div>
-		 	</div>
+		 					</td>
+		 					<td><fmt:formatDate value="${it.createTime }" /></td>
+		 					<td><a href="${base }/admin/news/edit?id=${it.id}">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="${base }/admin/news/delete?id=${it.id}">删除</a></td>
+		 		</tr>
 		</c:forEach>
+		</tbody>
+		</table>
 	</c:if>
 	<c:if test="${obj.results.size() ==0 }">
 		<div class="row">

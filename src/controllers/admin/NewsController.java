@@ -1,5 +1,6 @@
 package controllers.admin;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,14 +16,16 @@ import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
 import org.nutz.ioc.annotation.InjectName;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
+import org.nutz.lang.util.Context;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
+import org.nutz.mvc.view.ServerRedirectView;
 
-import utils.RedirectView;
 import utils.form.PageForm;
 import domains.Category;
 import domains.News;
@@ -102,22 +105,18 @@ public class NewsController {
 		if(Strings.isEmpty(tags)){
 			tagLists = new ArrayList<Tag>();
 		}else{
-			String tagsIn = "'"+tags+"'";
-			tagsIn.replaceAll(",", "','");
+			String tagsIn = tags;
 			// getTheExistsTags
-			tagLists = dao.query(Tag.class, Cnd.wrap("name in ("+tagsIn+") order by id asc"), null);
+			tagLists = dao.query(Tag.class, Cnd.wrap("id  in ("+tagsIn+") order by id asc"), null);
 		}
-		news.setTags(tagLists);
 		
 		List<Category> catLists = null;
 		if(Strings.isEmpty(cats)){
 			 catLists = dao.query(Category.class, Cnd.orderBy().asc("id"), dao.createPager(1, 1));
 		}else{
-			String catsIn = "'"+cats + "'";
-			catsIn.replaceAll(",","','");
-			catLists= dao.query(Category.class, Cnd.wrap("name in ("+ catsIn +") order by id asc") , null);
+			String catsIn = cats;
+			catLists= dao.query(Category.class, Cnd.wrap("id  in ("+ catsIn +") order by id asc") , null);
 		}
-		news.setCategorys(catLists);
 		dao.insert(news);
 		
 		for(Tag tt : tagLists){
@@ -133,22 +132,22 @@ public class NewsController {
 		News news = dao.fetch(News.class,id);
 		if(news == null){
 			// 提示出错
-			return new RedirectView("/admin/news/list");
+			return new ServerRedirectView("/admin/news/list");
 		}
 		dao.fetchLinks(news, "tags");
 		dao.fetchLinks(news, "categorys");
 		List<Tag> tags = dao.query(Tag.class, null, null);
 		List<Category> cats = dao.query(Category.class,null,null);
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("tags", tags);
-		model.put("cats", cats);
-		model.put("news", news);
+		Context model = Lang.context();
+		model.set("tags", tags);
+		model.set("cats", cats);
+		model.set("news", news);
 		return model;
 	}
 	@Ok(">>:/admin/news/edit?id=${obj}")
 	public Object update(@Param("id")Long id,@Param("title")String title,@Param("content")String content,@Param("tags")String tags,@Param("cats")String cats) {
 		if(Strings.isEmpty(title)){
-			title = new Datetime2String().cast(new Date(),null, "yyyy年MM月dd日")+"  留念";
+			title = new SimpleDateFormat("yyyy年MM月dd日").format(new Date()) +"  留念";
 		}
 		if(Strings.isEmpty(content)){
 			content = "";
@@ -156,34 +155,30 @@ public class NewsController {
 		News news = dao.fetch(News.class,id);
 		if(news == null){
 			// 提示出错
-				return new RedirectView("/admin/news/list");
+				return new ServerRedirectView("/admin/news/list");
 		}
 		news.setTitle(title);
 		news.setContent(content);
 		Sql tagSql = Sqls.create("delete from t_news_tag where news_id="+news.getId());
-		Sql catSql = Sqls.create("delete from t_news_cat where news_id="+news.getId());
+		Sql catSql = Sqls.create("delete from t_news_category  where news_id="+news.getId());
 		dao.execute(tagSql,catSql);
 		List<Tag> tagLists  = null;
 		if(Strings.isEmpty(tags)){
 			tagLists = new ArrayList<Tag>();
 		}else{
-			String tagsIn = "'"+tags+"'";
-			tagsIn.replaceAll(",", "','");
+			String tagsIn = tags;
 			// getTheExistsTags
-			tagLists = dao.query(Tag.class, Cnd.wrap("name in ("+tagsIn+") order by id asc"), null);
+			tagLists = dao.query(Tag.class, Cnd.wrap("id in ("+tagsIn+") order by id asc"), null);
 		}
-		news.setTags(tagLists);
 		
 		List<Category> catLists = null;
 		if(Strings.isEmpty(cats)){
 			 catLists = dao.query(Category.class, Cnd.orderBy().asc("id"), dao.createPager(1, 1));
 		}else{
-			String catsIn = "'"+cats + "'";
-			catsIn.replaceAll(",","','");
-			catLists= dao.query(Category.class, Cnd.wrap("name in ("+ catsIn +") order by id asc") , null);
+			String catsIn = cats ;
+			catLists= dao.query(Category.class, Cnd.wrap("id  in ("+ catsIn +") order by id asc") , null);
 		}
-		news.setCategorys(catLists);
-		dao.insert(news);
+		dao.update(news);
 		
 		for(Tag tt : tagLists){
 			 dao.insert("t_news_tag", Chain.make("news_id", news.getId()).add("tag_id", tt.getId()));
@@ -199,7 +194,7 @@ public class NewsController {
 		if(news == null) return ;
 		else{
 			Sql tagSql = Sqls.create("delete from t_news_tag where news_id="+news.getId());
-			Sql catSql = Sqls.create("delete from t_news_cat where news_id="+news.getId());
+			Sql catSql = Sqls.create("delete from t_news_category where news_id="+news.getId());
 			dao.execute(tagSql,catSql);
 			dao.delete(news);
 		}
@@ -208,7 +203,7 @@ public class NewsController {
 	public void deleteAll(@Param("ids")String ids) {
 		if(!Strings.isEmpty(ids)){
 			Sql tagSql = Sqls.create("delete from t_news_tag where news_id in ("+ids+")");
-			Sql catSql = Sqls.create("delete from t_news_cat where news_id in ("+ids+")");
+			Sql catSql = Sqls.create("delete from t_news_category  where news_id in ("+ids+")");
 			Sql newsSql = Sqls.create("delete from news where id in ("+ids+")");
 			dao.execute(tagSql,catSql,newsSql);
 		}

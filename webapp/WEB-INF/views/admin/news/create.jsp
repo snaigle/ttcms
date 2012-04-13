@@ -9,7 +9,7 @@
 <body>
 		 	<div class="row">
 		 			<div class="span12">
-		 				<form action="${base }/news/save" method="post">
+		 				<form action="${base }/admin/news/save" method="post">
 		 					<table>
 		 						<tbody>
 		 							<tr>

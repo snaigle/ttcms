@@ -62,14 +62,14 @@ public class CategoryController {
 	}
 	@Ok(">>:/admin/category/list")
 	public void delete(@Param("id")Long id) {
-		Sql tSql = Sqls.create("delete from t_news_cat where category_id ="+id);
+		Sql tSql = Sqls.create("delete from t_news_category  where category_id ="+id);
 		dao.execute(tSql);
 		dao.delete(Category.class, id);
 	}	
 	@Ok(">>:/admin/category/list")
 	public void deleteAll(@Param("ids")String ids) {
 		if(!Strings.isEmpty(ids)){
-			Sql tSql = Sqls.create("delete from t_news_cat where category_id in ("+ids+")");
+			Sql tSql = Sqls.create("delete from t_news_category where category_id in ("+ids+")");
 			Sql sql = Sqls.create("delete from category where id in ("+ids+")");
 			dao.execute(tSql,sql);
 		}
