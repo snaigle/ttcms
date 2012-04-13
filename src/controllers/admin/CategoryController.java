@@ -23,12 +23,12 @@ public class CategoryController {
 	/**
 	 * @return
 	 */
-	@Ok("jsp:admin.category.list")
+	@Ok("jsp:views.admin.category.list")
 	public PageForm<Category> list(@Param("offset")int offset , @Param("max")int max ) {
 		PageForm<Category> pf = PageForm.getPaper(dao, Category.class,null, offset, max);
 		return pf;
 	}
-	@Ok("jsp:admin.category.create")
+	@Ok("jsp:views.admin.category.create")
 	public void create() {
 	}
 	@Ok(">>:/admin/Category/list")
@@ -42,7 +42,7 @@ public class CategoryController {
 			}
 		}
 	}
-	@Ok("jsp:admin.category.edit")
+	@Ok("jsp:views.admin.category.edit")
 	public Object edit(@Param("id")long id) {
 		Category cat = dao.fetch(Category.class,id);
 		if(cat == null){

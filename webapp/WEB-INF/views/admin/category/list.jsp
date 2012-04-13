@@ -13,14 +13,14 @@
 		 				<form action="${base }/admin/category/deleteAll" method="post">
 		 					<table width="100%">
 		 						<thead>
-		 							<th>
+		 							<tr>
 		 								<td><input type="checkbox" >全选</td>
 		 								<td>名称</td>
 		 								<td>操作</td>
-		 							</th>
+		 							</tr>
 		 						</thead>
 		 						<tbody>
-		 							<c:each items="${obj.results }" var="cat"></c:each>
+		 							<c:forEach items="${obj.results }" var="cat">
 		 							<tr>
 		 								<td><input type="checkbox" name="ids" value="${cat.id }"></td>
 		 								<td>${cat.name }</td>
@@ -29,11 +29,12 @@
 		 									<a href="${base }/admin/category/delete?id=${cat.id}">删除</a>
 										</td>
 		 							</tr>
+		 							</c:forEach>
 		 						</tbody>
 		 					</table>
 	 					</form>
 	 					</c:if>
-	 					<c:if test="${obj.results.size() != 0 }">
+	 					<c:if test="${obj.results.size() == 0 }">
 	 						没有类别，去<a href="${base }/admin/category/create">添加</a>
 	 					</c:if>
 		 			</div>

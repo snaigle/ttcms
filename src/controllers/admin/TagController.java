@@ -23,12 +23,12 @@ public class TagController {
 	/**
 	 * @return
 	 */
-	@Ok("jsp:admin.tag.list")
+	@Ok("jsp:views.admin.tag.list")
 	public PageForm<Tag> list(@Param("offset")int offset , @Param("max")int max ) {
 		PageForm<Tag> pf = PageForm.getPaper(dao, Tag.class,null, offset, max);
 		return pf;
 	}
-	@Ok("jsp:admin.tag.create")
+	@Ok("jsp:views.admin.tag.create")
 	public void create() {
 	}
 	@Ok(">>:/admin/tag/list")
@@ -42,7 +42,7 @@ public class TagController {
 			}
 		}
 	}
-	@Ok("jsp:admin.tag.edit")
+	@Ok("jsp:views.admin.tag.edit")
 	public Object edit(@Param("id")long id) {
 		Tag tag = dao.fetch(Tag.class,id);
 		if(tag == null){

@@ -13,27 +13,28 @@
 		 				<form action="${base }/admin/tag/deleteAll" method="post">
 		 					<table width="100%">
 		 						<thead>
-		 							<th>
+		 							<tr>
 		 								<td><input type="checkbox" >全选</td>
 		 								<td>名称</td>
 		 								<td>操作</td>
-		 							</th>
+		 							</tr>
 		 						</thead>
 		 						<tbody>
-		 							<c:each items="${obj.results }" var="cat"></c:each>
+		 							<c:forEach items="${obj.results }" var="cat">
 		 							<tr>
 		 								<td><input type="checkbox" name="ids" value="${cat.id }"></td>
 		 								<td>${cat.name }</td>
 		 								<td>
 		 									<a href="${base }/admin/tag/edit?id=${cat.id}">编辑</a>
 		 									<a href="${base }/admin/tag/delete?id=${cat.id}">删除</a>
-										</td>
+										</td >
 		 							</tr>
+		 							</c:forEach>
 		 						</tbody>
 		 					</table>
 	 					</form>
 	 					</c:if>
-	 					<c:if test="${obj.results.size() != 0 }">
+	 					<c:if test="${obj.results.size() == 0 }">
 	 						没有标签，去<a href="${base }/admin/tag/create">添加</a>
 	 					</c:if>
 		 			</div>

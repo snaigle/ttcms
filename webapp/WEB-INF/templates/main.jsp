@@ -45,6 +45,26 @@
 	    </div>
 	    <div class="span2">
 	      <!--Sidebar content-->
+	      <div class="row-fluid">
+	      	<div class="span12">
+	      		常用操作
+	      	</div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span12">
+	      		标签云
+	      	</div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span12">
+	      		分类
+	      	</div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span12">
+	      		日期
+	      	</div>
+	      </div>
 	    </div>
 	  </div>
 	</div>

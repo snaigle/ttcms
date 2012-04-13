@@ -4,7 +4,7 @@
 	<head>
 		<title>增加文章</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<meta name="layout" content="main"/>
+		<meta name="layout" content="adminmain"/>
 	</head>
 <body>
 		 	<div class="row">
@@ -21,18 +21,16 @@
 		 									
 		 								<td>
 		 								<c:forEach items="${obj.tags }" var = "t">
-		 										${t.name },
+		 										<input type="checkbox" name="tags" value="${t.id }"/>${t.name }
 		 									</c:forEach>
-		 								<input  name="tags" />
 		 								</td>
 		 							</tr>
 		 							<tr>
 		 								<td>分类:</td>
 		 								<td>
 		 								<c:forEach items="${obj.categorys }" var = "c">
-		 										${c.name },
+		 										<input type="checkbox" name="cats" value="${c.id}"/>${c.name }
 		 									</c:forEach>
-		 								<input  name="cats" /></td>
 		 							</tr>
 		 							<tr>
 		 								<td> 内容:</td>
