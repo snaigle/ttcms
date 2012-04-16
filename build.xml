@@ -26,7 +26,6 @@
 				<fileset dir="${webapp.lib}">
 					<include name="*.jar"/>
 				</fileset>
-				<pathelement location="./bin/servlet-api-2.5.jar"/>
 			</classpath>
 		</javac>
 		<copy todir="${webapp.classes}">
@@ -45,10 +44,11 @@
 	
 	<target name="war" depends="build-web">
 		<tstamp prefix="build.">
-		     <format property="TimeSign" pattern="yyyy-MM-dd HH.mm.ss"/>
+		     <format property="TimeSign" pattern="yyyy-MM-dd"/>
 		</tstamp>
 		<war warfile="target/${ant.project.name}-${build.TimeSign}.war" basedir="${build.dir}">
 			<exclude name="**/*junit*.jar"/>
+			<exclude name="**/servlet-api*.jar"/>
 		</war>
 	</target>
 </project>
