@@ -40,7 +40,7 @@ public class FunctionController {
 	 * @param code
 	 * @return
 	 */
-	@Ok("jsp:views.admin.function.exesql")
+	@Ok("jsp:views.admin.function.execsql")
 	public String execsql(@Param("sql")String sql,@Param("code")String code){
 		if(Strings.isEmpty(sql) ){
 			return "";

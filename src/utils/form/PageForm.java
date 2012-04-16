@@ -7,6 +7,7 @@ import org.nutz.dao.Condition;
 import org.nutz.dao.Dao;
 import org.nutz.dao.pager.Pager;
 
+import utils.CndUtil;
 import controllers.MainModule;
 
 public class PageForm<T> {
@@ -25,12 +26,24 @@ public class PageForm<T> {
 	public void setPager(Pager pager) {
 		this.pager = pager;
 	}
-	public static <T> PageForm<T> getPaper(Dao dao,Class<T> clazz,Condition cnd,int offset,int max){
+	public static <T> PageForm<T> getPaper(Dao dao,Class<T> clazz,Cnd cnd,int offset,int max){
+		PageForm<T> pf = new PageForm<T>();
+		if (offset<1) offset = 1;
+		if(max <1 ) max = MainModule.max;
+		Pager pager = dao.createPager(offset,max);
+		List<T> results = dao.query(clazz, cnd, pager);
+		int count = dao.count(clazz,cnd);
+		pager.setRecordCount(count);
+		pf.setPager(pager);
+		pf.setResults(results);
+		return pf;
+	}
+	public static <T> PageForm<T> getPaper(Dao dao,Class<T> clazz,Cnd cnd,String[] orderby,int offset,int max){
 		  PageForm<T> pf = new PageForm<T>();
 		  if (offset<1) offset = 1;
 		  if(max <1 ) max = MainModule.max;
 		  Pager pager = dao.createPager(offset,max);
-		  List<T> results = dao.query(clazz, cnd, pager);
+		  List<T> results = dao.query(clazz, CndUtil.merge(cnd, orderby), pager);
 		  int count = dao.count(clazz,cnd);
 		  pager.setRecordCount(count);
 		  pf.setPager(pager);

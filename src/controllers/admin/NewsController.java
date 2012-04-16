@@ -3,12 +3,8 @@ package controllers.admin;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.junit.experimental.categories.Categories.IncludeCategory;
-import org.nutz.castor.castor.Datetime2String;
 import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
@@ -45,7 +41,7 @@ public class NewsController {
 	 */
 	@Ok("jsp:views.admin.news.list")
 	public PageForm<News> list(@Param("offset")int offset , @Param("max")int max ) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.wrap(" order by id desc"), offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,null,new String[]{"id","desc"}, offset, max);
 		for(News news : pf.getResults()){
 			dao.fetchLinks(news, "tags");
 			dao.fetchLinks(news, "categorys");
@@ -58,7 +54,7 @@ public class NewsController {
 	 */
 	@Ok("jsp:views.admin.news.list")
 	public PageForm<News>  listByTag(@Param("offset")int offset , @Param("max")int max,@Param("tag")int tag) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,null,new String[]{"id","desc"}, offset, max);
 		return pf;
 	}
 	/**
@@ -67,7 +63,7 @@ public class NewsController {
 	 */
 	@Ok("jsp:views.admin.news.list")
 	public PageForm<News>  listByCategory(@Param("offset")int offset , @Param("max")int max,@Param("cat")int category) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,null,new String[]{"id","desc"}, offset, max);
 		return pf;
 	}
 	/**
@@ -76,7 +72,7 @@ public class NewsController {
 	 */
 	@Ok("jsp:views.admin.news.list")
 	public PageForm<News> search(@Param("offset")int offset , @Param("max")int max,@Param("tag")int tag) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"), offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,null,new String[]{"id","desc"}, offset, max);
 		return pf;
 	}
 	@Ok("jsp:views.admin.news.create")

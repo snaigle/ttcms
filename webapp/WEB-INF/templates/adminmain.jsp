@@ -19,15 +19,8 @@
         <a class="brand" href="#">TT-CMS</a>
         <div class="nav-collapse">
           <ul class="nav">
-            <li class="active"><a href="#">首页</a></li>
-            <li><a href="#">前台首页</a></li>
-          </ul>
-          <form class="navbar-search pull-right" action="<%=request.getContextPath()%>/news/search">
-            <input type="text" class="search-query span2" placeholder="Search">
-          </form>
-          <ul class="nav pull-right">
-            <li><a href="#">退出</a></li>
-            <li class="divider-vertical"></li>
+            <li class="active"><a href="${base }/admin/news/list">首页</a></li>
+            <li><a href="${base }/">前台首页</a></li>
           </ul>
         </div><!-- /.nav-collapse -->
       </div>
@@ -36,24 +29,26 @@
 	<div class="container-fluid">
 	  <div class="row-fluid">
 	    <div class="span2">
-	      <ol>
-	      	<li><a href="${base }/admin/news/list">文章管理</a></li>
-	      	<ol>
-	      		<li><a href="${base }/admin/news/create">新建</a></li>
-	      	</ol>
-	      </ol>
-	      <ol>
-	      	<li><a href="${base }/admin/tag/list">标签管理</a></li>
-	      	<ol>
-	      		<li><a href="${base }/admin/tag/create">新建</a></li>
-	      	</ol>
-	      </ol>
-	      <ol>
-	      	<li><a href="${base }/admin/category/list">分类管理</a></li>
-	      	<ol>
-	      		<li><a href="${base }/admin/category/create">新建</a></li>
-	      	</ol>
-	      </ol>
+	      <ul>
+	      	<li><a href="${base }/admin/news/list">文章管理</a>
+		      	<ul>
+		      		<li><a href="${base }/admin/news/create">新建</a></li>
+		      	</ul>
+	      	</li>
+	      	<li><a href="${base }/admin/tag/list">标签管理</a>
+		      	<ul>
+		      		<li><a href="${base }/admin/tag/create">新建</a></li>
+		      	</ul>
+		      </li>
+	      	<li><a href="${base }/admin/category/list">分类管理</a>
+		      	<ul>
+		      		<li><a href="${base }/admin/category/create">新建</a></li>
+		      	</ul>
+		    </li>
+	      	<li><a href="${base }/admin/function/init">初始化sql</a></li>
+	      	<li><a href="${base }/admin/function/execsql">exec sql</a></li>
+	      	<li><a href="${base }/admin/function/dbupgrade">数据库升级</a></li>
+		  </ul>
 	    </div>
 	    <div class="span10">
 	      <!--Body content-->

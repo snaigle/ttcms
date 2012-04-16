@@ -19,7 +19,7 @@
         <a class="brand" href="#">TT-CMS</a>
         <div class="nav-collapse">
           <ul class="nav">
-            <li class="active"><a href="#">主页</a></li>
+            <li class="active"><a href="${base }/">主页</a></li>
             <li><a href="#">创意</a></li>
             <li><a href="#">目标</a></li>
             <li><a href="#">心情</a></li>
@@ -30,7 +30,7 @@
             <input type="text" class="search-query span2" placeholder="Search">
           </form>
           <ul class="nav pull-right">
-            <li><a href="#">退出</a></li>
+            <li><a href="${base }/admin/news/list">入口</a></li>
             <li class="divider-vertical"></li>
           </ul>
         </div><!-- /.nav-collapse -->
@@ -47,7 +47,14 @@
 	      <!--Sidebar content-->
 	      <div class="row-fluid">
 	      	<div class="span12">
-	      		常用操作
+	      		<ul class="nav">
+		            <li><a href="${base }/admin/news/list">入口</a></li>
+		        </ul>
+	      	</div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span12">
+	      		日期
 	      	</div>
 	      </div>
 	      <div class="row-fluid">
@@ -58,11 +65,6 @@
 	      <div class="row-fluid">
 	      	<div class="span12">
 	      		分类
-	      	</div>
-	      </div>
-	      <div class="row-fluid">
-	      	<div class="span12">
-	      		日期
 	      	</div>
 	      </div>
 	    </div>
