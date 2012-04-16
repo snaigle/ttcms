@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<project default="war" name="ttcms" basedir=".">
+	<property name="src.dir" value="src"/>
+	<property name="resources.dir" value="resources"/>
+	<property name="webapp.dir" value="webapp"/>
+	<property name="webapp.lib" value="${webapp.dir}/WEB-INF/lib"/>
+	<property name="webapp.classes" value="${webapp.dir}/WEB-INF/classes"/>
+	<property name="build.dir" value="build/root"/>
+	<property name="deploy.dir" value="D:/software/apache-tomcat-6.0.20/webapps/ROOT"/>
+	<path id="libid">
+		<fileset dir="${webapp.lib}">
+			<include name="*.jar"/>
+		</fileset>
+		<pathelement location="./bin/servlet-api-2.5.jar"/>
+	</path>
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+	<target name="prepare" depends="clean">
+		<mkdir dir="${build.dir}"/>	
+	</target>
+	<target name="build-class" depends="prepare">
+		<javac srcdir="${src.dir}" encoding="utf-8"
+         destdir="${webapp.classes}" includeantruntime="true" includes="**/*.java">
+			<classpath>
+				<fileset dir="${webapp.lib}">
+					<include name="*.jar"/>
+				</fileset>
+				<pathelement location="./bin/servlet-api-2.5.jar"/>
+			</classpath>
+		</javac>
+		<copy todir="${webapp.classes}">
+			<fileset dir="${resources.dir}">
+				<exclude name="**/.svn"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="build-web" depends="build-class">
+		<copy todir="${build.dir}">
+			<fileset dir="${webapp.dir}">
+				<exclude name="**/.svn"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="war" depends="build-web">
+		<tstamp prefix="build.">
+		     <format property="TimeSign" pattern="yyyy-MM-dd HH.mm.ss"/>
+		</tstamp>
+		<war warfile="target/${ant.project.name}-${build.TimeSign}.war" basedir="${build.dir}">
+			<exclude name="**/*junit*.jar"/>
+		</war>
+	</target>
+</project>
