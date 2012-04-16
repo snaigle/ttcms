@@ -9,6 +9,6 @@ import org.nutz.mvc.ioc.provider.ComboIocProvider;
 @IocBy(type= ComboIocProvider.class,args={"*org.nutz.ioc.loader.json.JsonLoader","dao.js","*org.nutz.ioc.loader.annotation.AnnotationIocLoader","services","controllers"})
 public class MainModule {
 	
-	public static int max = 20;
+	public static int max = 10;
 	
 }

@@ -45,7 +45,7 @@ public class NewsController {
 	 */
 	@Ok("jsp:views.admin.news.list")
 	public PageForm<News> list(@Param("offset")int offset , @Param("max")int max ) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,null, offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.wrap(" order by id desc"), offset, max);
 		for(News news : pf.getResults()){
 			dao.fetchLinks(news, "tags");
 			dao.fetchLinks(news, "categorys");
@@ -91,7 +91,7 @@ public class NewsController {
 	@Ok(">>:/admin/news/edit?id=${obj}")
 	public Long save(@Param("title")String title,@Param("content")String content,@Param("tags")String tags,@Param("cats")String cats) {
 		if(Strings.isEmpty(title)){
-			title = new Datetime2String().cast(new Date(),null, "yyyy年MM月dd日")+"  留念";
+			title = new SimpleDateFormat("yyyy年MM月dd日").format(new Date())+"  留念";
 		}
 		if(Strings.isEmpty(content)){
 			content = "";

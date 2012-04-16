@@ -18,7 +18,7 @@
 		 								<td><input  name="name" value="${obj.name }"/></td>
 		 							</tr>
 		 							<tr>
-		 								<td colspan="2"><input type="submit"  value="提交"/></td>
+		 								<td colspan="2"><input type="submit" class="btn"  value="更新"/>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void();" onclick="history.back();" class="btn">返回</a></td>
 		 							</tr>
 		 						</tbody>
 		 					</table>

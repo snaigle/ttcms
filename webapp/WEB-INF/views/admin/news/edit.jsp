@@ -29,10 +29,10 @@
 				 									</c:if>	
 			 									</c:forEach>
 			 										<c:if test="${flag }">
-				 										<input type="checkbox" checked="checked"  name="tags" value="${tag.id}"/>${tag.name }
+				 										<input type="checkbox" checked="checked"  name="tags" value="${tag.id}"/> ${tag.name } 
 				 									</c:if>
 				 									<c:if test="${! flag }">
-				 										<input type="checkbox"  name="tags" value="${tag.id}"/>${tag.name }
+				 										<input type="checkbox"  name="tags" value="${tag.id}"/> ${tag.name } 
 			 										</c:if>
 		 								</c:forEach>
 		 								</td>
@@ -48,10 +48,10 @@
 				 									</c:if>	
 			 									</c:forEach>
 			 										<c:if test="${flag }">
-				 										<input type="checkbox" checked="checked"  name="cats" value="${cat.id}"/>${cat.name }
+				 										<input type="checkbox" checked="checked"  name="cats" value="${cat.id}"/> ${cat.name } 
 				 									</c:if>
 				 									<c:if test="${! flag }">
-				 										<input type="checkbox"  name="cats" value="${cat.id}"/>${cat.name }
+				 										<input type="checkbox"  name="cats" value="${cat.id}"/> ${cat.name } 
 			 										</c:if>
 		 								</c:forEach>
 		 							</tr>
@@ -60,7 +60,7 @@
 		 								<td><textarea name="content" rows="10" cols="30">${news.content }</textarea>  </td>
 		 							</tr>
 		 							<tr>
-		 								<td colspan="2"><input type="submit"  value="提交"/>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void();" onclick="history.back();" class="btn">返回</a></td>
+		 								<td colspan="2"><input type="submit" class="btn"  value="更新"/>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void();" onclick="history.back();" class="btn">返回</a></td>
 		 							</tr>
 		 						</tbody>
 		 					</table>

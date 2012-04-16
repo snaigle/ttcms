@@ -21,7 +21,7 @@
 		 									
 		 								<td>
 		 								<c:forEach items="${obj.tags }" var = "t">
-		 										<input type="checkbox" name="tags" value="${t.id }"/> ${t.name }
+		 										<input type="checkbox" name="tags" value="${t.id }"/> ${t.name } 
 		 									</c:forEach>
 		 								</td>
 		 							</tr>
@@ -29,7 +29,7 @@
 		 								<td>分类:</td>
 		 								<td>
 		 								<c:forEach items="${obj.categorys }" var = "c">
-		 										<input type="checkbox" name="cats" value="${c.id }"/>${c.name }
+		 										<input type="checkbox" name="cats" value="${c.id }"/> ${c.name } 
 		 									</c:forEach>
 		 							</tr>
 		 							<tr>
@@ -37,7 +37,7 @@
 		 								<td><textarea name="content" rows="10" cols="30"></textarea>  </td>
 		 							</tr>
 		 							<tr>
-		 								<td colspan="2"><input type="submit"  value="提交"/></td>
+		 								<td colspan="2"><input type="submit" class="btn"  value="保存"/>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void();" onclick="history.back();" class="btn">返回</a></td>
 		 							</tr>
 		 						</tbody>
 		 					</table>
