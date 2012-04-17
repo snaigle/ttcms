@@ -16,7 +16,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="brand" href="#">TT-CMS</a>
+        <a class="brand" href="${base }/admin/news/list">TT-CMS</a>
         <div class="nav-collapse">
           <ul class="nav">
             <li class="active"><a href="${base }/admin/news/list">首页</a></li>
