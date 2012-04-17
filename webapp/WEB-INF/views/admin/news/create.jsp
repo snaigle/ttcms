@@ -7,14 +7,14 @@
 		<meta name="layout" content="adminmain"/>
 	</head>
 <body>
-		 	<div class="row">
+		 	<div class="row-fluid">
 		 			<div class="span12">
 		 				<form action="${base }/admin/news/save" method="post">
-		 					<table>
+		 					<table style="width:100%">
 		 						<tbody>
 		 							<tr>
-		 								<td>标题:</td>
-		 								<td><input  name="title" /></td>
+		 								<td >标题:</td>
+		 								<td style="width:90%"><input name="title"/></td>
 		 							</tr>
 		 							<tr>
 		 								<td>标签:</td>
@@ -34,15 +34,34 @@
 		 							</tr>
 		 							<tr>
 		 								<td> 内容:</td>
-		 								<td><textarea name="content" rows="10" cols="30"></textarea>  </td>
+		 								<td><textarea name="content" style="width:70%" rows="30"></textarea>  
+		 									<p>
+												您当前输入了 <span class="word_count">0</span> 个文字。
+											</p>
+		 								</td>
 		 							</tr>
 		 							<tr>
-		 								<td colspan="2"><input type="submit" class="btn"  value="保存"/>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void();" onclick="history.back();" class="btn">返回</a></td>
+		 								<td colspan="2" align="center"><input type="submit" class="btn"  value="保存"/>&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void();" onclick="history.back();" class="btn">返回</a></td>
 		 							</tr>
 		 						</tbody>
 		 					</table>
 		 					 </form>
 		 			</div>
 		 	</div>
+		 	<script charset="utf-8" src="${base}/editor/kindeditor-min.js"></script>
+			<script charset="utf-8" src="${base}/editor/lang/zh_CN.js"></script>
+			<script>
+				KindEditor.ready(function(K) {
+					K.create('textarea[name="content"]', {
+						allowImageUpload:false,
+						allowFlashUpload:false,
+						allowMediaUpload:false,
+						allowFileUpload:false,
+						afterChange : function() {
+							K('.word_count').html(this.count('text'));
+						}
+					});
+				});
+			</script>
 </body>
 </html>

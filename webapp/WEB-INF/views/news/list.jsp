@@ -10,21 +10,11 @@
 <body>
 	<c:if test="${obj.results.size() >0 }">
 		<c:forEach items="${obj.results }"  var="it">
-		 	<div class="row">
+		 	<div class="row-fluid">
 		 			<div class="span12">
 		 					<h2>${it.title }</h2>
 		 					<p class="small gray">
 		 						发布于 <fmt:formatDate value="${it.createTime }" pattern="yyyy年MM月dd日" />
-		 					</p>
-		 					<p>
-		 						<c:forEach items="${it.categorys}" var="c">
-		 								${c.name }&nbsp;&nbsp;
-		 						</c:forEach>
-		 						<c:if test="${it.tags.size()>0 }">
-		 							(<c:forEach items="${it.tags }" var="t">
-			 								${t.name }&nbsp;&nbsp;
-			 						</c:forEach>)
-		 						</c:if>
 		 					</p>
 		 					<p>${it.content }</p>
 		 					<p>
@@ -34,7 +24,7 @@
 		 						</c:forEach>
 		 						<c:if test="${it.tags.size()>0 }">
 		 							(<c:forEach items="${it.tags }" var="t">
-			 								${t.name }&nbsp;&nbsp;
+			 								 ${t.name } 
 			 						</c:forEach>)
 		 						</c:if>
 		 					</p>
@@ -56,7 +46,7 @@
 	<c:if test="${obj.results.size() ==0 }">
 		<div class="row">
 			<div class="span12">
-				没有新闻
+				没有文章
 			</div>
 		</div>
 	</c:if>
