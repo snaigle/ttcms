@@ -2,6 +2,7 @@ package utils;
 
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Condition;
+import org.nutz.lang.Strings;
 
 public class CndUtil {
 	/**
@@ -28,5 +29,14 @@ public class CndUtil {
     	}
     	return cnd;
     }
+  }
+  public static Condition merge(String first, String orderby) {
+	  if(Strings.isEmpty(first)&& Strings.isEmpty(orderby )){
+		  return null;
+	  }
+	  if(Strings.isEmpty(first)) return Cnd.wrap(orderby);
+	  else{
+		  return Strings.isEmpty(orderby)?Cnd.wrap(first ):Cnd.wrap(first + "  "+orderby);
+	  }
   }
 }

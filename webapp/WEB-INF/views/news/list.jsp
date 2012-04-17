@@ -3,7 +3,7 @@
 <%@ taglib uri="/WEB-INF/fmt.tld" prefix="fmt" %>
 <html>
 	<head>
-		<title>新闻列表</title>
+		<title>文章列表</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="layout" content="main"/>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/editor/plugins/code/prettify.css" type="text/css"/>

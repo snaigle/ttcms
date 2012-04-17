@@ -50,4 +50,16 @@ public class PageForm<T> {
 		  pf.setResults(results);
 		  return pf;
 	}
+	public static <T> PageForm<T> getPaper(Dao dao,Class<T> clazz,String cnd,String orderby,int offset,int max){
+		PageForm<T> pf = new PageForm<T>();
+		if (offset<1) offset = 1;
+		if(max <1 ) max = MainModule.max;
+		Pager pager = dao.createPager(offset,max);
+		List<T> results = dao.query(clazz, CndUtil.merge(cnd, orderby), pager);
+		int count = dao.count(clazz,Cnd.wrap(cnd));
+		pager.setRecordCount(count);
+		pf.setPager(pager);
+		pf.setResults(results);
+		return pf;
+	}
 }

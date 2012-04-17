@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="/WEB-INF/c.tld" prefix="c" %>
+<%@ taglib uri="/WEB-INF/fmt.tld" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,8 +28,8 @@
             <li><a href="#">留言板-未开放</a></li>
             <li><a href="#">联系我们</a></li>
           </ul>
-          <form class="navbar-search pull-right" action="<%=request.getContextPath()%>/news/search">
-            <input type="text" class="search-query span2" placeholder="Search">
+          <form class="navbar-search pull-right" action="${base }/news/search" method="post">
+            <input type="text" name="p" class="search-query span2" placeholder="Search">
           </form>
           <ul class="nav pull-right">
             <li><a href="${base }/admin/news/list">入口</a></li>
@@ -54,17 +56,37 @@
 	      </div>
 	      <div class="row-fluid">
 	      	<div class="span12">
-	      		日期
+	      		<p class="title">日期统计</p>
+	      		<c:if test="${p_date != null && p_date.size() >0 }">
+		      		<ul class="unstyled">
+		      			<c:forEach items="${p_date }" var="pd">
+		      				<li>${pd.getString("month")}(<a href="${base }/news/listByMonth?month=${pd.getString("month")}">${pd.getString("count") }</a>)</li>
+		      			</c:forEach>
+		      		</ul>
+	      		</c:if>
 	      	</div>
 	      </div>
 	      <div class="row-fluid">
 	      	<div class="span12">
-	      		标签云
+	      		<p class="title">标签云</p>
+	      		<c:if test="${p_tags != null && p_tags.size() >0 }">
+		      			<c:forEach items="${p_tags }" var="pt">
+		      				<a href="${base }/news/listByTag?id=${pt.getInt("id")}">${pt.getString("name")}(${pt.getString("count") })</a></li>
+		      			</c:forEach>
+		      			<p>
+	      		</c:if>
 	      	</div>
 	      </div>
 	      <div class="row-fluid">
 	      	<div class="span12">
-	      		分类
+	      		<p class="title">文章分类</p>
+	      		<c:if test="${p_cats != null && p_cats.size() >0 }">
+		      		<ul class="unstyled">
+		      			<c:forEach items="${p_cats }" var="pc">
+		      				<li><a href="${base }/news/listByCategory?id=${pc.getString("id")}">${pc.getString("name")}(${pc.getString("count") })</a></li>
+		      			</c:forEach>
+		      		</ul>
+	      		</c:if>
 	      	</div>
 	      </div>
 	    </div>
