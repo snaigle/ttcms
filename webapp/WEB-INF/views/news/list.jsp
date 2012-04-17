@@ -6,6 +6,7 @@
 		<title>新闻列表</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="layout" content="main"/>
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/editor/plugins/code/prettify.css" type="text/css"/>
 	</head>
 <body>
 	<c:if test="${obj.results.size() >0 }">
@@ -50,5 +51,9 @@
 			</div>
 		</div>
 	</c:if>
+	<script type="text/javascript" src="<%=request.getContextPath() %>/editor/plugins/code/prettify.js"></script>
+	<script type="text/javascript">
+		prettyPrint();
+	</script>
 </body>
 </html>
