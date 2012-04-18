@@ -60,7 +60,7 @@
 	      		<c:if test="${p_date != null && p_date.size() >0 }">
 		      		<ul class="unstyled">
 		      			<c:forEach items="${p_date }" var="pd">
-		      				<li>${pd.getString("month")}(<a href="${base }/news/listByMonth?month=${pd.getString("month")}">${pd.getString("count") }</a>)</li>
+		      				<li><a href="${base }/news/listByMonth?month=${pd.getString("month")}">${pd.getString("month").substring(0,pd.getString("month").indexOf("-"))}年${pd.getString("month").substring(pd.getString("month").indexOf("-")+1)}月</a>(${pd.getString("count") })</li>
 		      			</c:forEach>
 		      		</ul>
 	      		</c:if>
@@ -83,7 +83,7 @@
 	      		<c:if test="${p_cats != null && p_cats.size() >0 }">
 		      		<ul class="unstyled">
 		      			<c:forEach items="${p_cats }" var="pc">
-		      				<li><a href="${base }/news/listByCategory?id=${pc.getString("id")}">${pc.getString("name")}(${pc.getString("count") })</a></li>
+		      				<li><a href="${base }/news/listByCategory?id=${pc.getString("id")}">${pc.getString("name")}</a>(${pc.getString("count") })</li>
 		      			</c:forEach>
 		      		</ul>
 	      		</c:if>
