@@ -9,8 +9,8 @@ import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
-import org.nutz.mvc.view.ServerRedirectView;
 
+import utils.CV;
 import utils.form.PageForm;
 import domains.Tag;
 
@@ -32,47 +32,65 @@ public class TagController {
 	public void create() {
 	}
 	@Ok(">>:/admin/tag/list")
-	public void save(@Param("name")String name) {
+	public Object save(@Param("name")String name) {
+		String message = "";
 		if(! Strings.isEmpty(name)){
 			Tag tag = dao.fetch(Tag.class,name);
 			if(tag == null){
 				tag = new Tag();
 				tag.setName(name);
 				dao.insert(tag);
+				message = "插入成功";
+				return CV.redirect("/admin/tag/list", message);
+			}else{
+				message = "此标签名称已经存在";
 			}
+		}else{
+			message = "标签名称不能为空";
 		}
+		return CV.redirect("/admin/tag/create", message);
 	}
 	@Ok("jsp:views.admin.tag.edit")
 	public Object edit(@Param("id")long id) {
 		Tag tag = dao.fetch(Tag.class,id);
 		if(tag == null){
-			return new ServerRedirectView("/admin/tag/list");
+			return CV.redirect("/admin/tag/list", "此标签不存在");
 		}
 		return tag;
 	}
 	@Ok(">>:/admin/tag/list")
-	public void update(@Param("id")Long id,@Param("name")String name) {
-		if(Strings.isEmpty(name)){
+	public Object update(@Param("id")Long id,@Param("name")String name) {
+		String message = "";
+		if(! Strings.isEmpty(name)){
 			Tag tag = dao.fetch(Tag.class,id);
 			if(tag!= null){
 				tag.setName(name);
 				dao.update(tag);
+				message = "更新成功";
+			}else{
+				message = "此标签不存在";
 			}
+		}else{
+			message = "标签名称不能为空";
+			return CV.redirect("/admin/tag/edit?id="+id, message);
 		}
+		return CV.redirect("/admin/tag/list", message);
 	}
 	@Ok(">>:/admin/tag/list")
-	public void delete(@Param("id")Long id) {
+	public Object delete(@Param("id")Long id) {
 		Sql tSql = Sqls.create("delete from t_news_tag where tag_id ="+id);
 		dao.execute(tSql);
 		dao.delete(Tag.class, id);
+		return CV.redirect("/admin/tag/list", "删除成功");
 	}	
 	@Ok(">>:/admin/tag/list")
-	public void deleteAll(@Param("ids")String ids) {
+	public Object deleteAll(@Param("ids")String ids) {
 		if(!Strings.isEmpty(ids)){
 			Sql tSql = Sqls.create("delete from t_news_tag where tag_id in ("+ids+")");
 			Sql sql = Sqls.create("delete from tag where id in ("+ids+")");
 			dao.execute(tSql,sql);
 		}
+		return CV.redirect("/admin/tag/list", "删除成功");
 	}
 	
 	private static Log log = Logs.get();

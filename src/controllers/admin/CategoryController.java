@@ -4,13 +4,11 @@ import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
 import org.nutz.lang.Strings;
-import org.nutz.log.Log;
-import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
-import org.nutz.mvc.view.ServerRedirectView;
 
+import utils.CV;
 import utils.form.PageForm;
 import domains.Category;
 
@@ -31,51 +29,68 @@ public class CategoryController {
 	@Ok("jsp:views.admin.category.create")
 	public void create() {
 	}
-	@Ok(">>:/admin/Category/list")
-	public void save(@Param("name")String name) {
+	@Ok(">>:/admin/category/list")
+	public Object save(@Param("name")String name) {
+		String message = null;
 		if(! Strings.isEmpty(name)){
 			Category cat = dao.fetch(Category.class,name);
 			if(cat == null){
 				cat = new Category();
 				cat.setName(name);
 				dao.insert(cat);
+				message = "插入成功";
+				return CV.redirect("/admin/category/list", message);
+			}else{
+				message = "此分类名称已存在";
 			}
+		}else{
+			message = "分类名称不能为空";
 		}
+		return CV.redirect("/admin/category/create", message);
 	}
 	@Ok("jsp:views.admin.category.edit")
 	public Object edit(@Param("id")long id) {
 		Category cat = dao.fetch(Category.class,id);
 		if(cat == null){
-			return new ServerRedirectView("/admin/category/list");
+			return CV.redirect("/admin/category/list", "此分类不存在");
 		}
 		return cat;
 	}
 	@Ok(">>:/admin/category/list")
-	public void update(@Param("id")Long id,@Param("name")String name) {
-		if(Strings.isEmpty(name)){
+	public Object update(@Param("id")Long id,@Param("name")String name) {
+		String message = null; 
+		if(! Strings.isEmpty(name)){
 			Category cat = dao.fetch(Category.class,id);
 			if(cat!= null){
 				cat.setName(name);
 				dao.update(cat);
+				message = "更新成功";
+			}else{
+				message = "此分类不存在";
 			}
+		}else{
+			message = "分类名称不能为空";
+			return CV.redirect("/admin/category/edit?id="+id, message);
 		}
+		return CV.redirect("/admin/category/list", message);
 	}
 	@Ok(">>:/admin/category/list")
-	public void delete(@Param("id")Long id) {
+	public Object delete(@Param("id")Long id) {
 		Sql tSql = Sqls.create("delete from t_news_category  where category_id ="+id);
 		dao.execute(tSql);
 		dao.delete(Category.class, id);
+		return CV.redirect("/admin/category/list", "删除成功");
 	}	
 	@Ok(">>:/admin/category/list")
-	public void deleteAll(@Param("ids")String ids) {
+	public Object deleteAll(@Param("ids")String ids) {
 		if(!Strings.isEmpty(ids)){
 			Sql tSql = Sqls.create("delete from t_news_category where category_id in ("+ids+")");
 			Sql sql = Sqls.create("delete from category where id in ("+ids+")");
 			dao.execute(tSql,sql);
 		}
+		return CV.redirect("/admin/category/list", "删除成功");
 	}
 	
-	private static Log log = Logs.get();
 	private Dao dao;
 	public void setDao(Dao dao){
 		this.dao = dao;

@@ -17,7 +17,7 @@ public class CndUtil {
     if(first != null){
     	cnd = first;
     }else{
-    	cnd = Cnd.where("1", "=", "1");
+    	cnd = Cnd.where("1", "=", 1);
     }
     if(orderby.length == 1){
     	return cnd.desc(orderby[0]);

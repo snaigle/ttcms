@@ -43,16 +43,16 @@ public class FunctionController {
 	@Ok("jsp:views.admin.function.execsql")
 	public String execsql(@Param("sql")String sql,@Param("code")String code){
 		if(Strings.isEmpty(sql) ){
-			return "";
+			return "请输入验证码和要执行的SQL";
 		}
 		if(Strings.isEmpty(code) || !"tt64".equals(code)){
-			return "code error";
+			return "验证码输入错误";
 		}
-		 String result = "exec 成功";
+		 String result = "执行成功";
 		 try{
 			 dao.execute( Sqls.create(sql));
 		 }catch(Exception e){
-			 result="exec 出错";
+			 result="执行出错";
 			 log.error(e);
 		 }
 		 return result;

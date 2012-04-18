@@ -12,6 +12,14 @@
     <filter-name>sitemesh</filter-name>
     <filter-class>filters.MetaSiteMeshFilter</filter-class>
   </filter>
+  <filter>
+    <filter-name>redirectfilter</filter-name>
+    <filter-class>filters.RedirectFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>redirectfilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
   <filter-mapping>
     <filter-name>nutzfilter</filter-name>
     <url-pattern>/*</url-pattern>

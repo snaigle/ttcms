@@ -6,10 +6,14 @@
 		<meta name="layout" content="adminmain"/>
 	</head>
 <body>
-		 	<div class="row">
-		 			<div class="span12">
-		 					${obj}
-		 			</div>
-		 	</div>
+ 	<div class="row">
+			<div class="span12">
+				<c:if test="${obj != null }">
+ 				<div class="badge badge-info">
+					${obj}			 					
+ 				</div>
+				</c:if>
+			</div>
+ 	</div>
 </body>
 </html>

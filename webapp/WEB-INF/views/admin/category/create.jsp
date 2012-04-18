@@ -9,6 +9,11 @@
 <body>
 		 	<div class="row">
 		 			<div class="span12">
+		 				<c:if test="${message != null }">
+			 				<div class="badge badge-info">
+								${message}			 					
+			 				</div>
+		 				</c:if>
 		 				<form action="${base }/admin/category/save" method="post">
 		 					<table>
 		 						<tbody>

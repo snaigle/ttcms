@@ -15,13 +15,11 @@ import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Context;
-import org.nutz.log.Log;
-import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
-import org.nutz.mvc.view.ServerRedirectView;
 
+import utils.CV;
 import utils.form.PageForm;
 import domains.Category;
 import domains.News;
@@ -48,33 +46,6 @@ public class NewsController {
 		}
 		return pf;
 	}
-	/**
-	 * params: offset,max,tag
-	 * @return
-	 */
-	@Ok("jsp:views.admin.news.list")
-	public PageForm<News>  listByTag(@Param("offset")int offset , @Param("max")int max,@Param("tag")int tag) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,null,new String[]{"id","desc"}, offset, max);
-		return pf;
-	}
-	/**
-	 * params: offset,max,category
-	 * @return
-	 */
-	@Ok("jsp:views.admin.news.list")
-	public PageForm<News>  listByCategory(@Param("offset")int offset , @Param("max")int max,@Param("cat")int category) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,null,new String[]{"id","desc"}, offset, max);
-		return pf;
-	}
-	/**
-	 * params: offset,max,keyword
-	 * @return
-	 */
-	@Ok("jsp:views.admin.news.list")
-	public PageForm<News> search(@Param("offset")int offset , @Param("max")int max,@Param("tag")int tag) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,null,new String[]{"id","desc"}, offset, max);
-		return pf;
-	}
 	@Ok("jsp:views.admin.news.create")
 	public News create() {
 		News news = new News();
@@ -85,12 +56,12 @@ public class NewsController {
 		return news;
 	}
 	@Ok(">>:/admin/news/edit?id=${obj}")
-	public Long save(@Param("title")String title,@Param("content")String content,@Param("tags")String tags,@Param("cats")String cats) {
+	public Object save(@Param("title")String title,@Param("content")String content,@Param("tags")String tags,@Param("cats")String cats) {
 		if(Strings.isEmpty(title)){
 			title = new SimpleDateFormat("yyyy年MM月dd日").format(new Date())+"  留念";
 		}
 		if(Strings.isEmpty(content)){
-			content = "";
+			content = "她轻轻的动了动鼠标没留下一行文字";
 		}
 		News news = new News();
 		news.setTitle(title);
@@ -121,14 +92,14 @@ public class NewsController {
 		for(Category cc : catLists){
 			dao.insert("t_news_category" , Chain.make("news_id", news.getId()).add("category_id", cc.getId()));
 		}
-		return news.getId();
+		return CV.redirect("/admin/news/edit?id="+news.getId(),"文章发布成功");
 	}
 	@Ok("jsp:views.admin.news.edit")
 	public Object edit(@Param("id")long id) {
 		News news = dao.fetch(News.class,id);
 		if(news == null){
 			// 提示出错
-			return new ServerRedirectView("/admin/news/list");
+			return CV.redirect("/admin/news/list","此文章不存在");
 		}
 		dao.fetchLinks(news, "tags");
 		dao.fetchLinks(news, "categorys");
@@ -146,12 +117,12 @@ public class NewsController {
 			title = new SimpleDateFormat("yyyy年MM月dd日").format(new Date()) +"  留念";
 		}
 		if(Strings.isEmpty(content)){
-			content = "";
+			content = "她轻轻的动了动鼠标没留下一行文字";
 		}
 		News news = dao.fetch(News.class,id);
 		if(news == null){
 			// 提示出错
-				return new ServerRedirectView("/admin/news/list");
+			 return CV.redirect("/admin/news/list","此文章不存在");
 		}
 		news.setTitle(title);
 		news.setContent(content);
@@ -182,30 +153,33 @@ public class NewsController {
 		for(Category cc : catLists){
 			dao.insert("t_news_category" , Chain.make("news_id", news.getId()).add("category_id", cc.getId()));
 		}
-		return news.getId();
+		return CV.redirect("/admin/news/edit?id="+news.getId(),"文章更新成功");
 	}
 	@Ok(">>:/admin/news/list")
-	public void delete(@Param("id")Long id) {
+	public Object delete(@Param("id")Long id) {
 		News news = dao.fetch(News.class,id);
-		if(news == null) return ;
+		if(news == null) 
+			return CV.redirect("/admin/news/list","此文章不存在");
 		else{
 			Sql tagSql = Sqls.create("delete from t_news_tag where news_id="+news.getId());
 			Sql catSql = Sqls.create("delete from t_news_category where news_id="+news.getId());
 			dao.execute(tagSql,catSql);
 			dao.delete(news);
 		}
+		return CV.redirect("/admin/news/list","删除成功");
 	}	
 	@Ok(">>:/admin/news/list")
-	public void deleteAll(@Param("ids")String ids) {
+	public Object deleteAll(@Param("ids")String ids) {
 		if(!Strings.isEmpty(ids)){
 			Sql tagSql = Sqls.create("delete from t_news_tag where news_id in ("+ids+")");
 			Sql catSql = Sqls.create("delete from t_news_category  where news_id in ("+ids+")");
 			Sql newsSql = Sqls.create("delete from news where id in ("+ids+")");
 			dao.execute(tagSql,catSql,newsSql);
+			return CV.redirect("/admin/news/list","必须要选择一项，才能进行删除");
 		}
+		return CV.redirect("/admin/news/list","删除成功");
 	}
 	
-	private static Log log = Logs.get();
 	private Dao dao;
 	public void setDao(Dao dao){
 		this.dao = dao;

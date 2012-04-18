@@ -9,6 +9,11 @@
 <body>
 		 	<div class="row-fluid">
 		 			<div class="span12">
+		 				<c:if test="${message != null }">
+			 				<div class="badge badge-info">
+								${message}			 					
+			 				</div>
+		 				</c:if>
 		 				<form action="${base }/admin/news/save" method="post">
 		 					<table style="width:100%">
 		 						<tbody>

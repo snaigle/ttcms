@@ -9,6 +9,11 @@
 <body>
 		 	<div class="row">
 		 			<div class="span12">
+		 				<c:if test="${message != null }">
+			 				<div class="badge badge-info">
+								${message}			 					
+			 				</div>
+		 				</c:if>
 		 				<c:if test="${obj.results.size() != 0 }">
 		 				<form action="${base }/admin/tag/deleteAll" method="post">
 		 					<table width="100%">

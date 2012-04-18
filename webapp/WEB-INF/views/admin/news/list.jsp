@@ -8,6 +8,11 @@
 		<meta name="layout" content="adminmain"/>
 	</head>
 <body>
+	<c:if test="${message != null }">
+		<div class="badge badge-info">
+		${message}			 					
+		</div>
+	</c:if>
 	<c:if test="${obj.results.size() >0 }">
 		<table >
 		<thead>

@@ -47,7 +47,9 @@
 	<c:if test="${obj.results.size() ==0 }">
 		<div class="row">
 			<div class="span12">
-				没有文章
+ 				<div class="badge">
+					没有找到文章		 					
+ 				</div>
 			</div>
 		</div>
 	</c:if>
