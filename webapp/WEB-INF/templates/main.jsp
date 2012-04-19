@@ -60,7 +60,7 @@
 	      		<c:if test="${p_date != null && p_date.size() >0 }">
 		      		<ul class="unstyled">
 		      			<c:forEach items="${p_date }" var="pd">
-		      				<li><a href="${base }/news/listByMonth?month=${pd.getString("month")}">${pd.getString("month").substring(0,pd.getString("month").indexOf("-"))}年${pd.getString("month").substring(pd.getString("month").indexOf("-")+1)}月</a>(${pd.getString("count") })</li>
+		      				<li><a href="${base }/news/listByMonth?month=${pd.getString("month")}">${pd.getString("month")}</a>(${pd.getString("count") })</li>
 		      			</c:forEach>
 		      		</ul>
 	      		</c:if>
