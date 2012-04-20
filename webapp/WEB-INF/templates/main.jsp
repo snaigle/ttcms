@@ -22,11 +22,6 @@
         <div class="nav-collapse">
           <ul class="nav">
             <li class="active"><a href="${base }/">主页</a></li>
-            <li><a href="#">创意</a></li>
-            <li><a href="#">目标</a></li>
-            <li><a href="#">心情</a></li>
-            <li><a href="#">留言板-未开放</a></li>
-            <li><a href="#">联系我们</a></li>
           </ul>
           <form class="navbar-search pull-right" action="${base }/news/search" method="post">
             <input type="text" name="p" class="search-query span2" placeholder="Search">

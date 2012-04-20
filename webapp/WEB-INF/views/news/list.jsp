@@ -12,14 +12,14 @@
 	<c:if test="${obj.results.size() >0 }">
 		<c:forEach items="${obj.results }"  var="it">
 		 	<div class="row-fluid">
-		 			<div class="span12">
+		 			<div class="span12" style="margin:20px;">
 		 					<h2>${it.title }</h2>
-		 					<p class="small gray">
-		 						发布于 <fmt:formatDate value="${it.createTime }" pattern="yyyy年MM月dd日" />
-		 					</p>
-		 					<p>${it.content }</p>
 		 					<p>
-		 						发布在
+		 						<small>发布于 <fmt:formatDate value="${it.createTime }" pattern="yyyy年MM月dd日  HH:mm" /></small>
+		 					</p>
+		 					<p style="padding:5px 10px;">${it.content.replaceAll("\\n","<p style=\"padding:0 10px\">") }</p>
+		 					<p>
+		 						<small>发布在
 		 						<c:forEach items="${it.categorys}" var="c">
 		 								${c.name }&nbsp;&nbsp;
 		 						</c:forEach>
@@ -28,6 +28,7 @@
 			 								 ${t.name } 
 			 						</c:forEach>)
 		 						</c:if>
+		 						</small>
 		 					</p>
 		 			</div>
 		 	</div>
