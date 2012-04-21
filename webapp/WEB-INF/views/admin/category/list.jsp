@@ -41,11 +41,11 @@
 	 					<div class="row">
 							<div class="span12 pager">
 								<c:if test="${ ! obj.pager.first}">
-									<a href="${base }/news/list?offset=${obj.pager.pageNumber -1}" class="before">上一页</a>
+									<a href="${base }/admin/category/list?offset=${obj.pager.pageNumber -1}" class="before">上一页</a>
 								</c:if>
 								<span >第${obj.pager.pageNumber}页，总页数：${obj.pager.pageCount}，总记录：${obj.pager.recordCount }</span>
 								<c:if test="${ ! obj.pager.last}">
-									<a href="${base }/news/list?offset=${obj.pager.pageNumber +1}" class="after">下一页</a>
+									<a href="${base }/admin/category/list?offset=${obj.pager.pageNumber +1}" class="after">下一页</a>
 								</c:if>
 							</div>
 						</div>
