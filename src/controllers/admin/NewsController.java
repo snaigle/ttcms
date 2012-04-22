@@ -10,12 +10,9 @@ import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
-import org.nutz.ioc.annotation.InjectName;
-import org.nutz.ioc.loader.annotation.IocBean;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Context;
-import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
@@ -25,9 +22,6 @@ import domains.Category;
 import domains.News;
 import domains.Tag;
 
-@At("/admin/news")
-@InjectName("admin_newsController")
-@IocBean(name="admin_newsController")
 public class NewsController {
 
 	@Ok(">>:/admin/news/list")
@@ -37,7 +31,6 @@ public class NewsController {
 	 * params: offset,max
 	 * @return
 	 */
-	@Ok("jsp:views.admin.news.list")
 	public PageForm<News> list(@Param("offset")int offset , @Param("max")int max ) {
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,null,new String[]{"id","desc"}, offset, max);
 		for(News news : pf.getResults()){
@@ -46,7 +39,6 @@ public class NewsController {
 		}
 		return pf;
 	}
-	@Ok("jsp:views.admin.news.create")
 	public News create() {
 		News news = new News();
 		List<Tag> tags = dao.query(Tag.class, null, null);
@@ -94,7 +86,6 @@ public class NewsController {
 		}
 		return CV.redirect("/admin/news/edit?id="+news.getId(),"文章发布成功");
 	}
-	@Ok("jsp:views.admin.news.edit")
 	public Object edit(@Param("id")long id) {
 		News news = dao.fetch(News.class,id);
 		if(news == null){

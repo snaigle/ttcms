@@ -1,5 +1,4 @@
 create table if not exists news(id int primary key auto_increment,title varchar(2000),content  varchar(20000000),create_time timestamp);
-##alter table news alter column create_time timestamp
 create table if not exists tag(id int primary key auto_increment, name  varchar(200) );
 create table if not exists t_news_tag(news_id int , tag_id int);
 create table if not exists category(id int primary key auto_increment,name varchar(200));

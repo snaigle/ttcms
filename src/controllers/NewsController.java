@@ -7,8 +7,6 @@ import org.nutz.dao.Dao;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Context;
-import org.nutz.log.Log;
-import org.nutz.log.Logs;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.view.ServerRedirectView;
@@ -134,7 +132,6 @@ public class NewsController {
 		return news;
 	}
 
-	private static Log log = Logs.get();
 	private Dao dao;
 	public void setDao(Dao dao){
 		this.dao = dao;

@@ -4,9 +4,6 @@ import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
 import org.nutz.lang.Strings;
-import org.nutz.log.Log;
-import org.nutz.log.Logs;
-import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
@@ -14,7 +11,6 @@ import utils.CV;
 import utils.form.PageForm;
 import domains.Tag;
 
-@At("/admin/tag")
 public class TagController {
 
 	@Ok(">>:/admin/tag/list")
@@ -23,12 +19,10 @@ public class TagController {
 	/**
 	 * @return
 	 */
-	@Ok("jsp:views.admin.tag.list")
 	public PageForm<Tag> list(@Param("offset")int offset , @Param("max")int max ) {
 		PageForm<Tag> pf = PageForm.getPaper(dao, Tag.class,null, offset, max);
 		return pf;
 	}
-	@Ok("jsp:views.admin.tag.create")
 	public void create() {
 	}
 	@Ok(">>:/admin/tag/list")
@@ -50,7 +44,6 @@ public class TagController {
 		}
 		return CV.redirect("/admin/tag/create", message);
 	}
-	@Ok("jsp:views.admin.tag.edit")
 	public Object edit(@Param("id")long id) {
 		Tag tag = dao.fetch(Tag.class,id);
 		if(tag == null){
@@ -92,8 +85,6 @@ public class TagController {
 		}
 		return CV.redirect("/admin/tag/list", "删除成功");
 	}
-	
-	private static Log log = Logs.get();
 	private Dao dao;
 	public void setDao(Dao dao){
 		this.dao = dao;

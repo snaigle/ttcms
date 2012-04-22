@@ -4,15 +4,14 @@ import org.nutz.dao.Dao;
 import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
 import org.nutz.lang.Strings;
-import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
+import org.nutz.mvc.view.ServerRedirectView;
 
 import utils.CV;
 import utils.form.PageForm;
 import domains.Category;
 
-@At("/admin/category")
 public class CategoryController {
 
 	@Ok(">>:/admin/category/list")
@@ -21,12 +20,10 @@ public class CategoryController {
 	/**
 	 * @return
 	 */
-	@Ok("jsp:views.admin.category.list")
 	public PageForm<Category> list(@Param("offset")int offset , @Param("max")int max ) {
 		PageForm<Category> pf = PageForm.getPaper(dao, Category.class,null, offset, max);
 		return pf;
 	}
-	@Ok("jsp:views.admin.category.create")
 	public void create() {
 	}
 	@Ok(">>:/admin/category/list")
@@ -39,20 +36,19 @@ public class CategoryController {
 				cat.setName(name);
 				dao.insert(cat);
 				message = "插入成功";
-				return CV.redirect("/admin/category/list", message);
+				return message;
 			}else{
 				message = "此分类名称已存在";
 			}
 		}else{
 			message = "分类名称不能为空";
 		}
-		return CV.redirect("/admin/category/create", message);
+		return message;
 	}
-	@Ok("jsp:views.admin.category.edit")
 	public Object edit(@Param("id")long id) {
 		Category cat = dao.fetch(Category.class,id);
 		if(cat == null){
-			return CV.redirect("/admin/category/list", "此分类不存在");
+			return new ServerRedirectView("/admin/category/list");
 		}
 		return cat;
 	}
@@ -72,7 +68,7 @@ public class CategoryController {
 			message = "分类名称不能为空";
 			return CV.redirect("/admin/category/edit?id="+id, message);
 		}
-		return CV.redirect("/admin/category/list", message);
+		return message;
 	}
 	@Ok(">>:/admin/category/list")
 	public Object delete(@Param("id")Long id) {
