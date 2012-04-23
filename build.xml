@@ -11,13 +11,14 @@
 		<fileset dir="${webapp.lib}">
 			<include name="*.jar"/>
 		</fileset>
-		<pathelement location="./bin/servlet-api-2.5.jar"/>
 	</path>
     <target name="clean">
         <delete dir="${build.dir}"/>
+        <delete dir="${webapp.classes}"/>
     </target>
 	<target name="prepare" depends="clean">
 		<mkdir dir="${build.dir}"/>	
+		<mkdir dir="${webapp.classes}"/>	
 	</target>
 	<target name="build-class" depends="prepare">
 		<javac srcdir="${src.dir}" encoding="utf-8"
@@ -30,14 +31,12 @@
 		</javac>
 		<copy todir="${webapp.classes}">
 			<fileset dir="${resources.dir}">
-				<exclude name="**/.svn"/>
 			</fileset>
 		</copy>
 	</target>
 	<target name="build-web" depends="build-class">
 		<copy todir="${build.dir}">
 			<fileset dir="${webapp.dir}">
-				<exclude name="**/.svn"/>
 			</fileset>
 		</copy>
 	</target>
