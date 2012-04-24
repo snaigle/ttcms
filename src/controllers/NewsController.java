@@ -8,7 +8,6 @@ import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Context;
 import org.nutz.mvc.annotation.Ok;
-import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.view.ServerRedirectView;
 
 import utils.PluginUtil;
@@ -26,28 +25,26 @@ public class NewsController {
 	 * params: offset,max
 	 * @return
 	 */
-	public Object list(@Param("offset")int offset , @Param("max")int max ) {
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,null,new String[]{"id","desc"}, offset, max);
+	public Object list(int offset , int max ) {
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"),null, offset, max);
 		for(News news : pf.getResults()){
 			dao.fetchLinks(news, "tags");
 			dao.fetchLinks(news, "categorys");
 		}
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
-		ctx.set("p_tags", PluginUtil.getTagsCount(dao));
-		ctx.set("p_cats", PluginUtil.getCatsCount(dao));
-		ctx.set("p_date", PluginUtil.getDateCount(dao));
+		PluginUtil.getAllCount(dao,ctx);
 		return ctx;
 	}
 	/**
 	 * params: offset,max,tag
 	 * @return
 	 */
-	public Object listByTag(@Param("offset")int offset , @Param("max")int max,@Param("id")int id) {
+	public Object listByTag(int offset , int max,int id) {
 		if(id == 0){
 			return new ServerRedirectView("/news/list");
 		}
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,"id in (select news_id from t_news_tag where tag_id = "+id+")","order by id desc", offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.format("id in (select news_id from t_news_tag where tag_id = %d) order by id desc",id ),Cnd.format("id in (select news_id from t_news_tag where tag_id = %d)",id ), offset, max);
 		for(News news : pf.getResults()){
 			dao.fetchLinks(news, "tags");
 			dao.fetchLinks(news, "categorys");
@@ -55,20 +52,18 @@ public class NewsController {
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
 		ctx.set("tagId", id);
-		ctx.set("p_tags", PluginUtil.getTagsCount(dao));
-		ctx.set("p_cats", PluginUtil.getCatsCount(dao));
-		ctx.set("p_date", PluginUtil.getDateCount(dao));
+		PluginUtil.getAllCount(dao,ctx);
 		return ctx;
 	}
 	/**
 	 * params: offset,max,tag
 	 * @return
 	 */
-	public Object  listByMonth(@Param("offset")int offset , @Param("max")int max,@Param("month")String month) {
+	public Object  listByMonth(int offset ,int max,String month) {
 		if(Strings.isEmpty(month)){
 			return new ServerRedirectView("/news/list");
 		}
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.where("concat(year(create_time),'-',month(create_time))","=", month),new String[]{"id","desc"}, offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.where("concat(year(create_time),'-',month(create_time))","=", month).desc("id"),Cnd.where("concat(year(create_time),'-',month(create_time))","=", month), offset, max);
 		for(News news : pf.getResults()){
 			dao.fetchLinks(news, "tags");
 			dao.fetchLinks(news, "categorys");
@@ -76,20 +71,18 @@ public class NewsController {
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
 		ctx.set("month", month);
-		ctx.set("p_tags", PluginUtil.getTagsCount(dao));
-		ctx.set("p_cats", PluginUtil.getCatsCount(dao));
-		ctx.set("p_date", PluginUtil.getDateCount(dao));
+		PluginUtil.getAllCount(dao,ctx);
 		return ctx;
 	}
 	/**
 	 * params: offset,max,category
 	 * @return
 	 */
-	public Object  listByCategory(@Param("offset")int offset , @Param("max")int max,@Param("id")int id) {
+	public Object  listByCategory(int offset , int max,int id) {
 		if(id == 0){
 			return new ServerRedirectView("/news/list");
 		}
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,"id in (select news_id from t_news_category where category_id = "+id+")","order by id desc", offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.format("id in (select news_id from t_news_tag where tag_id = %d) order by id desc",id ),Cnd.format("id in (select news_id from t_news_tag where tag_id = %d)",id ), offset, max);
 		for(News news : pf.getResults()){
 			dao.fetchLinks(news, "tags");
 			dao.fetchLinks(news, "categorys");
@@ -97,20 +90,18 @@ public class NewsController {
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
 		ctx.set("catId", id);
-		ctx.set("p_tags", PluginUtil.getTagsCount(dao));
-		ctx.set("p_cats", PluginUtil.getCatsCount(dao));
-		ctx.set("p_date", PluginUtil.getDateCount(dao));
+		PluginUtil.getAllCount(dao,ctx);
 		return ctx;
 	}
 	/**
 	 * params: offset,max,keyword
 	 * @return
 	 */
-	public Object search(@Param("offset")int offset , @Param("max")int max,@Param("p")String p) {
+	public Object search(int offset , int max,String p) {
 		if(Strings.isEmpty(p)){
 			return new ServerRedirectView("/news/list");
 		}
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.where("title","like","%"+p+"%").or("content", "like", "%"+p+"%"),new String[]{"id","desc"}, offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.where("title","like","%"+p+"%").or("content", "like", "%"+p+"%").desc("id"),Cnd.where("title","like","%"+p+"%").or("content", "like", "%"+p+"%"), offset, max);
 		for(News news : pf.getResults()){
 			dao.fetchLinks(news, "tags");
 			dao.fetchLinks(news, "categorys");
@@ -118,9 +109,7 @@ public class NewsController {
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
 		ctx.set("p", p);
-		ctx.set("p_tags", PluginUtil.getTagsCount(dao));
-		ctx.set("p_cats", PluginUtil.getCatsCount(dao));
-		ctx.set("p_date", PluginUtil.getDateCount(dao));
+		PluginUtil.getAllCount(dao,ctx);
 		return ctx;
 	}
 	public News create() {

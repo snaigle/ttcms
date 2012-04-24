@@ -5,7 +5,6 @@ import org.nutz.dao.Sqls;
 import org.nutz.dao.sql.Sql;
 import org.nutz.lang.Strings;
 import org.nutz.mvc.annotation.Ok;
-import org.nutz.mvc.annotation.Param;
 import org.nutz.mvc.view.ServerRedirectView;
 
 import utils.CV;
@@ -20,14 +19,14 @@ public class CategoryController {
 	/**
 	 * @return
 	 */
-	public PageForm<Category> list(@Param("offset")int offset , @Param("max")int max ) {
+	public PageForm<Category> list(int offset , int max ) {
 		PageForm<Category> pf = PageForm.getPaper(dao, Category.class,null, offset, max);
 		return pf;
 	}
 	public void create() {
 	}
 	@Ok(">>:/admin/category/list")
-	public Object save(@Param("name")String name) {
+	public Object save(String name) {
 		String message = null;
 		if(! Strings.isEmpty(name)){
 			Category cat = dao.fetch(Category.class,name);
@@ -45,7 +44,7 @@ public class CategoryController {
 		}
 		return message;
 	}
-	public Object edit(@Param("id")long id) {
+	public Object edit(long id) {
 		Category cat = dao.fetch(Category.class,id);
 		if(cat == null){
 			return new ServerRedirectView("/admin/category/list");
@@ -53,7 +52,7 @@ public class CategoryController {
 		return cat;
 	}
 	@Ok(">>:/admin/category/list")
-	public Object update(@Param("id")Long id,@Param("name")String name) {
+	public Object update(Long id,String name) {
 		String message = null; 
 		if(! Strings.isEmpty(name)){
 			Category cat = dao.fetch(Category.class,id);
@@ -71,14 +70,14 @@ public class CategoryController {
 		return message;
 	}
 	@Ok(">>:/admin/category/list")
-	public Object delete(@Param("id")Long id) {
+	public Object delete(Long id) {
 		Sql tSql = Sqls.create("delete from t_news_category  where category_id ="+id);
 		dao.execute(tSql);
 		dao.delete(Category.class, id);
 		return CV.redirect("/admin/category/list", "删除成功");
 	}	
 	@Ok(">>:/admin/category/list")
-	public Object deleteAll(@Param("ids")String ids) {
+	public Object deleteAll(String ids) {
 		if(!Strings.isEmpty(ids)){
 			Sql tSql = Sqls.create("delete from t_news_category where category_id in ("+ids+")");
 			Sql sql = Sqls.create("delete from category where id in ("+ids+")");
