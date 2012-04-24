@@ -1,4 +1,6 @@
 webapp/WEB-INF/classes/
 .classpath
 .project
-.settings
+.settings/
+build/
+target/
