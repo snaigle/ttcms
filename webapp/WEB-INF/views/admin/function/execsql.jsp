@@ -14,7 +14,7 @@
 								${obj}			 					
 			 				</div>
 		 				</c:if>
-		 				<form action="${base }/news/execsql" method="post">
+		 				<form action="${base }/admin/function/execsql" method="post">
 		 					<table>
 		 						<tbody>
 		 							<tr>
