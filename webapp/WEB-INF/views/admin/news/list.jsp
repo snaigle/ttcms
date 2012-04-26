@@ -14,10 +14,11 @@
 		</div>
 	</c:if>
 	<c:if test="${obj.results.size() >0 }">
+		<form action="${base }/admin/news/deleteall" method="post">
 		<table >
 		<thead>
 			<tr>
-				<td> <input type="checkbox" /> 全选</td>
+				<td> <input type="checkbox" id="ids" class="selectAll"/><input class="btn" type="submit" value="删除"/></td>
 				<td>标题</td>
 				<td>标签</td>
 				<td>分类</td>
@@ -40,12 +41,13 @@
 		 								${c.name }&nbsp;&nbsp;&nbsp;&nbsp;
 		 						</c:forEach>
 		 					</td>
-		 					<td><fmt:formatDate value="${it.createTime }" /></td>
+		 					<td><fmt:formatDate value="${it.createTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		 					<td><a href="${base }/admin/news/edit?id=${it.id}">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="${base }/admin/news/delete?id=${it.id}">删除</a></td>
 		 		</tr>
 		</c:forEach>
 		</tbody>
 		</table>
+		</form>
 		<div class="row">
 			<div class="span12 pager">
 				<c:if test="${ ! obj.pager.first}">

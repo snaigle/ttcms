@@ -2,13 +2,14 @@
 <project default="war" name="ttcms" basedir=".">
 	<property name="src.dir" value="src"/>
 	<property name="resources.dir" value="resources"/>
+	<property name="procdata.dir" value="procdata"/>
 	<property name="webapp.dir" value="webapp"/>
 	<property name="webapp.lib" value="${webapp.dir}/WEB-INF/lib"/>
 	<property name="webapp.classes" value="${webapp.dir}/WEB-INF/classes"/>
 	<property name="build.dir" value="build/root"/>
 	<property name="deploy.dir" value="D:/software/apache-tomcat-6.0.20/webapps/ROOT"/>
 	
-	<property name="version" value="1.b.2"/>
+	<property name="version" value="0.a.2"/>
 	<path id="libid">
 		<fileset dir="${webapp.lib}">
 			<include name="*.jar"/>
@@ -24,7 +25,7 @@
 	</target>
 	<target name="build-class" depends="prepare">
 		<javac srcdir="${src.dir}" encoding="utf-8"
-         destdir="${webapp.classes}" includeantruntime="true" includes="**/*.java">
+         destdir="${webapp.classes}" includeantruntime="true" includes="**/*.java" debug="on">
 			<classpath>
 				<fileset dir="${webapp.lib}">
 					<include name="*.jar"/>
@@ -36,15 +37,25 @@
 			</fileset>
 		</copy>
 	</target>
-	<target name="build-web" depends="build-class">
+	<target name="build-web">
 		<copy todir="${build.dir}">
 			<fileset dir="${webapp.dir}">
 			</fileset>
 		</copy>
 	</target>
-	
-	<target name="war" depends="build-web">
-
+	<target name="war" depends="build-class,build-web">
+		<war warfile="target/${ant.project.name}-${version}.war" basedir="${build.dir}">
+			<exclude name="**/*junit*.jar"/>
+			<exclude name="**/servlet-api*.jar"/>
+		</war>
+	</target>
+	<target name="procdata">
+		<copy todir="${webapp.classes}" overwrite="true">
+			<fileset dir="procdata">
+			</fileset>
+		</copy>
+	</target>
+	<target name="procwar" depends="build-class,procdata,build-web">
 		<war warfile="target/${ant.project.name}-${version}.war" basedir="${build.dir}">
 			<exclude name="**/*junit*.jar"/>
 			<exclude name="**/servlet-api*.jar"/>

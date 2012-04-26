@@ -19,7 +19,7 @@
 		 					<table width="100%">
 		 						<thead>
 		 							<tr>
-		 								<td><input type="checkbox" >全选</td>
+		 								<td><input type="checkbox" id="ids" class="selectAll"><input class="btn" type="submit" value="删除"/></td>
 		 								<td>名称</td>
 		 								<td>操作</td>
 		 							</tr>
