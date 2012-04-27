@@ -42,7 +42,7 @@ public class CategoryController {
 		}else{
 			message = "分类名称不能为空";
 		}
-		return message;
+		return CV.redirect("/admin/category/create",message);
 	}
 	public Object edit(long id) {
 		Category cat = dao.fetch(Category.class,id);
