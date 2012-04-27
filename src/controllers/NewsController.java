@@ -79,7 +79,7 @@ public class NewsController {
 		if(id == 0){
 			return CV.redirect("/news/list","分类不能为空");
 		}
-		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.format("id in (select news_id from t_news_tag where tag_id = %d) order by id desc",id ),Cnd.format("id in (select news_id from t_news_tag where tag_id = %d)",id ), offset, max);
+		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.format("id in (select news_id from t_news_tag where category_id = %d) order by id desc",id ),Cnd.format("id in (select news_id from t_news_tag where tag_id = %d)",id ), offset, max);
 		for(News news : pf.getResults()){
 			dao.fetchLinks(news, "tags");
 			dao.fetchLinks(news, "categorys");
