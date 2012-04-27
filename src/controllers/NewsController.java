@@ -1,20 +1,17 @@
 package controllers;
 
-import java.util.List;
-
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Context;
 import org.nutz.mvc.annotation.Ok;
-import org.nutz.mvc.view.ServerRedirectView;
+import org.nutz.mvc.annotation.Param;
 
+import utils.CV;
 import utils.PluginUtil;
 import utils.form.PageForm;
-import domains.Category;
 import domains.News;
-import domains.Tag;
 
 public class NewsController {
 
@@ -25,7 +22,7 @@ public class NewsController {
 	 * params: offset,max
 	 * @return
 	 */
-	public Object list(int offset , int max ) {
+	public Object list(@Param("offset")int offset ,@Param("max") int max ) {
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"),null, offset, max);
 		for(News news : pf.getResults()){
 			dao.fetchLinks(news, "tags");
@@ -40,9 +37,9 @@ public class NewsController {
 	 * params: offset,max,tag
 	 * @return
 	 */
-	public Object listByTag(int offset , int max,int id) {
+	public Object listByTag(@Param("offset")int offset , @Param("max")int max,@Param("id")int id) {
 		if(id == 0){
-			return new ServerRedirectView("/news/list");
+			return CV.redirect("/news/list","标签不能为空");
 		}
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.format("id in (select news_id from t_news_tag where tag_id = %d) order by id desc",id ),Cnd.format("id in (select news_id from t_news_tag where tag_id = %d)",id ), offset, max);
 		for(News news : pf.getResults()){
@@ -59,9 +56,9 @@ public class NewsController {
 	 * params: offset,max,tag
 	 * @return
 	 */
-	public Object  listByMonth(int offset ,int max,String month) {
+	public Object  listByMonth(@Param("offset")int offset ,@Param("max")int max,@Param("month")String month) {
 		if(Strings.isEmpty(month)){
-			return new ServerRedirectView("/news/list");
+			return CV.redirect("/news/list","日期归档不能为空");
 		}
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.where("concat(year(create_time),'-',month(create_time))","=", month).desc("id"),Cnd.where("concat(year(create_time),'-',month(create_time))","=", month), offset, max);
 		for(News news : pf.getResults()){
@@ -78,9 +75,9 @@ public class NewsController {
 	 * params: offset,max,category
 	 * @return
 	 */
-	public Object  listByCategory(int offset , int max,int id) {
+	public Object  listByCategory(@Param("offset")int offset , @Param("max")int max,@Param("id")int id) {
 		if(id == 0){
-			return new ServerRedirectView("/news/list");
+			return CV.redirect("/news/list","分类不能为空");
 		}
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.format("id in (select news_id from t_news_tag where tag_id = %d) order by id desc",id ),Cnd.format("id in (select news_id from t_news_tag where tag_id = %d)",id ), offset, max);
 		for(News news : pf.getResults()){
@@ -97,9 +94,9 @@ public class NewsController {
 	 * params: offset,max,keyword
 	 * @return
 	 */
-	public Object search(int offset , int max,String p) {
+	public Object search(@Param("offset")int offset , @Param("max")int max,@Param("p")String p) {
 		if(Strings.isEmpty(p)){
-			return new ServerRedirectView("/news/list");
+			return CV.redirect("/news/list","搜索字段不能为空");
 		}
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.where("title","like","%"+p+"%").or("content", "like", "%"+p+"%").desc("id"),Cnd.where("title","like","%"+p+"%").or("content", "like", "%"+p+"%"), offset, max);
 		for(News news : pf.getResults()){
@@ -111,14 +108,6 @@ public class NewsController {
 		ctx.set("p", p);
 		PluginUtil.getAllCount(dao,ctx);
 		return ctx;
-	}
-	public News create() {
-		News news = new News();
-		List<Tag> tags = dao.query(Tag.class, null, null);
-		List<Category> cats = dao.query(Category.class,null,null);
-		news.setTags(tags);
-		news.setCategorys(cats);
-		return news;
 	}
 
 	private Dao dao;

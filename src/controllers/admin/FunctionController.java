@@ -8,6 +8,7 @@ import org.nutz.dao.sql.Sql;
 import org.nutz.lang.Strings;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
+import org.nutz.mvc.annotation.Param;
 
 public class FunctionController {
 
@@ -35,7 +36,7 @@ public class FunctionController {
 	 * @param code
 	 * @return
 	 */
-	public String execsql(String sql,String code){
+	public String execsql(@Param("sql")String sql,@Param("code")String code){
 		if(Strings.isEmpty(sql) ){
 			return "请输入验证码和要执行的SQL";
 		}

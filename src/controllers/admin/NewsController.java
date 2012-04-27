@@ -14,6 +14,7 @@ import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Context;
 import org.nutz.mvc.annotation.Ok;
+import org.nutz.mvc.annotation.Param;
 
 import utils.CV;
 import utils.form.PageForm;
@@ -30,7 +31,7 @@ public class NewsController {
 	 * params: offset,max
 	 * @return
 	 */
-	public PageForm<News> list(int offset ,int max ) {
+	public PageForm<News> list(@Param("offset")int offset ,@Param("max")int max ) {
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"),null, offset, max);
 		for(News news : pf.getResults()){
 			dao.fetchLinks(news, "tags");
@@ -47,7 +48,7 @@ public class NewsController {
 		return news;
 	}
 	@Ok(">>:/admin/news/edit?id=${obj}")
-	public Object save(String title,String content,String tags,String cats) {
+	public Object save(@Param("title")String title,@Param("content")String content,@Param("tags")String tags,@Param("cats")String cats) {
 		if(Strings.isEmpty(title)){
 			title = new SimpleDateFormat("yyyy年MM月dd日").format(new Date())+"  留念";
 		}
@@ -85,7 +86,7 @@ public class NewsController {
 		}
 		return CV.redirect("/admin/news/edit?id="+news.getId(),"文章发布成功");
 	}
-	public Object edit(long id) {
+	public Object edit(@Param("id")long id) {
 		News news = dao.fetch(News.class,id);
 		if(news == null){
 			// 提示出错
@@ -102,7 +103,7 @@ public class NewsController {
 		return model;
 	}
 	@Ok(">>:/admin/news/edit?id=${obj}")
-	public Object update(Long id,String title,String content,String tags,String cats) {
+	public Object update(@Param("id")Long id,@Param("title")String title,@Param("content")String content,@Param("tags")String tags,@Param("cats")String cats) {
 		if(Strings.isEmpty(title)){
 			title = new SimpleDateFormat("yyyy年MM月dd日").format(new Date()) +"  留念";
 		}
@@ -146,7 +147,7 @@ public class NewsController {
 		return CV.redirect("/admin/news/edit?id="+news.getId(),"文章更新成功");
 	}
 	@Ok(">>:/admin/news/list")
-	public Object delete(Long id) {
+	public Object delete(@Param("id")Long id) {
 		News news = dao.fetch(News.class,id);
 		if(news == null) 
 			return CV.redirect("/admin/news/list","此文章不存在");
@@ -159,7 +160,7 @@ public class NewsController {
 		return CV.redirect("/admin/news/list","删除成功");
 	}	
 	@Ok(">>:/admin/news/list")
-	public Object deleteAll(String ids) {
+	public Object deleteAll(@Param("ids")String ids) {
 		if(!Strings.isEmpty(ids)){
 			Sql tagSql = Sqls.create("delete from t_news_tag where news_id in ("+ids+")");
 			Sql catSql = Sqls.create("delete from t_news_category  where news_id in ("+ids+")");
