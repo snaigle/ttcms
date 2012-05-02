@@ -7,7 +7,7 @@
 	<property name="webapp.classes" value="${webapp.dir}/WEB-INF/classes"/>
 	<property name="build.dir" value="build/root"/>
 	
-	<property name="version" value="0.a.2"/>
+	<property name="version" value="0.a.3"/>
 	<path id="libid">
 		<fileset dir="${webapp.lib}">
 			<include name="*.jar"/>
@@ -45,7 +45,7 @@
 		<tstamp prefix="build.">
 			<format property="time" pattern="yyyyMMddHHmmssSSS"/>
 		</tstamp>
-		<war warfile="target/${ant.project.name}-${build.time}.war" basedir="${build.dir}">
+		<war warfile="target/${ant.project.name}-${version}-${build.time}.war" basedir="${build.dir}">
 			<exclude name="**/*junit*.jar"/>
 			<exclude name="**/servlet-api*.jar"/>
 		</war>
