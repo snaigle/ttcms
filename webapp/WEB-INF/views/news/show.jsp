@@ -37,7 +37,7 @@
  					<c:forEach items="${obj.comments }" var="it">
 		 			<div class="span12" style="margin:5px;">
 		 				<p>${it.content}</p>
-		 				<p><small>${it.username}发布于<fmt:formatDate value="${it.createDate }" pattern="yyyy年MM月dd日  HH:mm:ss"/></small></p>
+		 				<p><small>${it.username}发布于<fmt:formatDate value="${it.createTime }" pattern="yyyy年MM月dd日  HH:mm:ss"/></small></p>
 		 			</div>
 		 			</c:forEach>
 		 		</c:if>
@@ -48,7 +48,7 @@
 		 	<div class="row-fluid">
 		 		<div class="span12" style="margin:5px;">
 		 			
-		 				<form>
+		 				<form id="aForm">
 			 			<table width="100%">
 			 				<tr>
 			 					<td>用户名*</td>
@@ -56,7 +56,9 @@
 			 				</tr>
 			 				<tr>
 			 					<td>暗号*</td>
-			 					<td><input name="code"/>(提示:天王盖地虎)</td>
+			 					<td>
+			 					<input type="hidden" name="newsId" value="${obj.id }"/>
+			 					<input name="code"/>(提示:天***虎)</td>
 			 				</tr>
 			 				<tr>
 			 					<td>评论*</td>
@@ -67,7 +69,7 @@
 			 					</td>
 			 				</tr>
 			 				<tr>
-			 					<td colspan="2" ><input type="button" class="btn" value="提交评论" /></td>
+			 					<td colspan="2" ><input type="button" class="btn" value="提交评论"/></td>
 			 				</tr>
 			 			</table>
 			 			</form>
@@ -98,28 +100,40 @@
 							alert("都不能为空");
 							return false;
 						}
-						$(":button").attr("disable","");
-						$.post("/news/saveComment?"+$("form").serialize(),{},function(obj){
-							if(!obj.result){
-								alert(obj.msg);
+						$(":button").attr("disabled","disabled");
+						var obj = {username:$(":input[name='username']").val(),
+							code:$(":input[name='code']").val(),
+							content:editor.html(),
+							newsId:$(":input[name='newsId']").val()
+						};
+						
+						$.post("${base}/news/saveComment",obj,function(db){
+							
+							db = $.parseJSON(db);
+							if(!db.result){
+								alert(db.msg);
+								$(":button").removeAttr("disabled");
 								return ;
 							}
 							var comment = $("#comment");
 							if($(".badge").length == 0){
-								comment.append("<div class=\"span12\" style=\"margin:5px;\"><p>"+editor.html()+"</p><p><small>"+$(":input[name='username']").val()+"发布于"+(new Date().toString())+"</small></p></div>");
+								comment.append("<div class=\"span12\" style=\"margin:5px;\"><p>"+editor.html()+"</p><p><small>"+$(":input[name='username']").val()+"发布于"+getCurrentDate()+"</small></p></div>");
 							}else{
 								comment.empty();
 								comment.append("<h2>所有评论</h2>");
-								comment.append("<div class=\"span12\" style=\"margin:5px;\"><p>"+editor.html()+"</p><p><small>"+$(":input[name='username']").val()+"发布于"+(new Date().toString())+"</small></p></div>");
+								comment.append("<div class=\"span12\" style=\"margin:5px;\"><p>"+editor.html()+"</p><p><small>"+$(":input[name='username']").val()+"发布于"+getCurrentDate()+"</small></p></div>");
 							}
 							$(":input[name='username']").val("");
 							$(":input[name='code']").val("");
 							editor.html("");
 							$(":button").removeAttr("disable");
-						},"json");
+						});
 					});
 				});
-				
+				function getCurrentDate(){
+					var now = new Date();
+					return now.getFullYear()+"年" + (now.getMonth()+1) +"月"+now.getDate()+"日 "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
+				}
 			</script>
 </body>
 </html>

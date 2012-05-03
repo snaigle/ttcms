@@ -132,13 +132,13 @@ public class NewsController {
 			username = req.getRemoteHost();
 		}
 		if(Strings.isEmpty(code)){
-			return  "{result:false,msg:'暗号不能为空'}";
+			return  "{\"result\":false,\"msg\":\"暗号不能为空\"}";
 		}
 		if(newsId ==0){
-			return  "{result:false,msg:'你丫干毛呢'}";
+			return  "{\"result\":false,\"msg\":\"你丫干毛呢\"}";
 		}
 		if(! "宝塔镇河妖".equals(code)){
-			return  "{result:false,msg:'真笨，暗号都猜不对'}";
+			return  "{\"result\":false,\"msg\":\"真笨，暗号都猜不对\"}";
 		}
 		Comment comment = new Comment();
 		comment.setUsername(username);
@@ -146,7 +146,7 @@ public class NewsController {
 		comment.setNewsId(newsId);
 		comment.setContent(content);
 		dao.insert(comment);
-		return  "{result:true,msg:'评论插入成功'}";
+		return  "{\"result\":true,\"msg\":\"评论插入成功\"}";
 	}
 	private Dao dao;
 	public void setDao(Dao dao){
