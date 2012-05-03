@@ -1,5 +1,9 @@
 package controllers;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
 import org.nutz.lang.Lang;
@@ -11,6 +15,7 @@ import org.nutz.mvc.annotation.Param;
 import utils.CV;
 import utils.PluginUtil;
 import utils.form.PageForm;
+import domains.Comment;
 import domains.News;
 
 public class NewsController {
@@ -109,7 +114,40 @@ public class NewsController {
 		PluginUtil.getAllCount(dao,ctx);
 		return ctx;
 	}
-
+	public Object show(@Param("id")long id){
+		News news = dao.fetch(News.class,id);
+		if(news == null){
+			return CV.redirect("/news/list", "此文章不存在");
+		}else{
+			dao.fetchLinks(news, null);
+			Context ctx = Lang.context();
+			ctx.set("obj", news);
+			PluginUtil.getAllCount(dao, ctx);
+			return ctx;
+		}
+	}
+	@Ok("raw")
+	public Object saveComment(HttpServletRequest req,@Param("username")String username,@Param("code")String code,@Param("content")String content,@Param("newsId")long newsId){
+		if(Strings.isEmpty(username)){
+			username = req.getRemoteHost();
+		}
+		if(Strings.isEmpty(code)){
+			return  "{result:false,msg:'暗号不能为空'}";
+		}
+		if(newsId ==0){
+			return  "{result:false,msg:'你丫干毛呢'}";
+		}
+		if(! "宝塔镇河妖".equals(code)){
+			return  "{result:false,msg:'真笨，暗号都猜不对'}";
+		}
+		Comment comment = new Comment();
+		comment.setUsername(username);
+		comment.setCreateTime(new Date());
+		comment.setNewsId(newsId);
+		comment.setContent(content);
+		dao.insert(comment);
+		return  "{result:true,msg:'评论插入成功'}";
+	}
 	private Dao dao;
 	public void setDao(Dao dao){
 		this.dao = dao;

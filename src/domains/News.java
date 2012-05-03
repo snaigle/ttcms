@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.nutz.dao.entity.annotation.Column;
 import org.nutz.dao.entity.annotation.Id;
+import org.nutz.dao.entity.annotation.Many;
 import org.nutz.dao.entity.annotation.ManyMany;
 import org.nutz.dao.entity.annotation.Name;
 import org.nutz.dao.entity.annotation.Table;
@@ -21,6 +22,8 @@ public class News {
 	List<Tag> tags;	// 关键词
 	@ManyMany(target=Category.class,relation="t_news_category",from="news_id",to="category_id")
 	List<Category> categorys; // 新闻分类
+	@Many(field="newsId",target=Comment.class)
+	List<Comment> comments; // 评论
 	@Column("create_time")
 	Date createTime ;
 	public Long getId() {
@@ -59,4 +62,11 @@ public class News {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	public List<Comment> getComments() {
+		return comments;
+	}
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+	
 }

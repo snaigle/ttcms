@@ -29,6 +29,7 @@
 			 						</c:forEach>)
 		 						</c:if>
 		 						</small>
+		 						<small><a href="${base }/news/show?id=${it.id}">留个盐</a></small>
 		 					</p>
 		 			</div>
 		 	</div>
