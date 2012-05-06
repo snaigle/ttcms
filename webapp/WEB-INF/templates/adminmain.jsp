@@ -26,7 +26,7 @@
       </div>
     </div><!-- /navbar-inner -->
   </div>
-	<div class="container-fluid">
+	<div class="container-fluid" style="width:100%;">
 	  <div class="row-fluid">
 	    <div class="span2">
 	      <ul>
