@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <LINK REL="StyleSheet" HREF="<%=request.getContextPath() %>/css/bootstrap.css" TYPE="text/css" MEDIA=screen>
-<title><sitemesh:write property="title"/></title>
+<title>后台管理--<sitemesh:write property="title"/></title>
 	<sitemesh:write property="head"/>
 </head>
 <body>
@@ -26,7 +26,7 @@
       </div>
     </div><!-- /navbar-inner -->
   </div>
-	<div class="container-fluid" style="width:100%;">
+	<div class="container-fluid" style="width:90%;">
 	  <div class="row-fluid">
 	    <div class="span2">
 	      <ul>

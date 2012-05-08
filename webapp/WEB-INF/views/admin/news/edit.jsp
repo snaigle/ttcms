@@ -20,7 +20,7 @@
 		 						<tbody>
 		 							<tr>
 		 								<td>标题:</td>
-		 								<td style="width:90%"><input  name="title" value="${news.title }" /></td>
+		 								<td style="width:90%"><input  name="title" value="${news.title }" style="width:70%"/></td>
 		 							</tr>
 		 							<tr>
 		 								<td>标签:</td>
@@ -85,6 +85,12 @@
 						allowFlashUpload:false,
 						allowMediaUpload:false,
 						allowFileUpload:false,
+						//filterMode:true,
+						items:['source','|','undo','redo','|','template','plainpaste','wordpaste','quickformat',
+						       '|','formatblock','fontname','fontsize','forecolor','hilitecolor','bold','italic',
+						       'underline','strikethrough','link','unlink','insertorderedlist','insertunorderedlist',
+						       '|','image','flash','media','table',
+						       'emoticons','map','code','|','fullscreen'],
 						afterChange : function() {
 							K('.word_count').html(this.count('text'));
 						}

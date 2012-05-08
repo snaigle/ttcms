@@ -3,7 +3,7 @@
 <%@ taglib uri="/WEB-INF/fmt.tld" prefix="fmt" %>
 <html>
 	<head>
-		<title>文章列表</title>
+		<title>所有文章</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="layout" content="main"/>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/editor/plugins/code/prettify.css" type="text/css"/>
@@ -12,7 +12,7 @@
 	<c:if test="${obj.results.size() >0 }">
 		<c:forEach items="${obj.results }"  var="it">
 		 	<div class="row-fluid">
-		 			<div class="span12" style="margin:20px;">
+		 			<div class="span12" >
 		 					<h2>${it.title }</h2>
 		 					<p>
 		 						<small>发布于 <fmt:formatDate value="${it.createTime }" pattern="yyyy年MM月dd日  HH:mm" /></small>
@@ -29,7 +29,7 @@
 			 						</c:forEach>)
 		 						</c:if>
 		 						</small>
-		 						<small><a href="${base }/news/show?id=${it.id}">留个盐</a></small>
+		 						<small><a href="${base }/show/${it.id}">留个盐</a></small>
 		 					</p>
 		 			</div>
 		 	</div>
@@ -37,11 +37,11 @@
 		<div class="row">
 			<div class="span12 pager">
 				<c:if test="${ ! obj.pager.first}">
-					<a href="${base }/news/list?offset=${obj.pager.pageNumber -1}" class="before">上一页</a>
+					<a href="${base }/page/${obj.pager.pageNumber -1}" class="before">上一页</a>
 				</c:if>
 				<span >第${obj.pager.pageNumber}页，总页数：${obj.pager.pageCount}，总记录：${obj.pager.recordCount }</span>
 				<c:if test="${ ! obj.pager.last}">
-					<a href="${base }/news/list?offset=${obj.pager.pageNumber +1}" class="after">下一页</a>
+					<a href="${base }/page/${obj.pager.pageNumber +1}" class="after">下一页</a>
 				</c:if>
 			</div>
 		</div>

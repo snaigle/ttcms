@@ -3,14 +3,14 @@
 <%@ taglib uri="/WEB-INF/fmt.tld" prefix="fmt" %>
 <html>
 	<head>
-		<title>文章列表</title>
+		<title>${obj.title}</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="layout" content="main"/>
 		<link rel="stylesheet" href="<%=request.getContextPath() %>/editor/plugins/code/prettify.css" type="text/css"/>
 	</head>
 <body>
 		 	<div class="row-fluid">
-		 			<div class="span12" style="margin:20px;">
+		 			<div class="span12">
 		 					<h2>${obj.title }</h2>
 		 					<p>
 		 						<small>发布于 <fmt:formatDate value="${obj.createTime }" pattern="yyyy年MM月dd日  HH:mm" /></small>
