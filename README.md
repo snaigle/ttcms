@@ -1,7 +1,4 @@
-ttcms
+# ttcms
+## JAVA版CMS 
 =====
-
-万能的CMS
-
-=====
-致力于打造JAVA版的WORDPRESS，包括其完善的插件平台
+会打造一个完善的插件平台
