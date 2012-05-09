@@ -62,10 +62,13 @@
 		 							</tr>
 		 							<tr>
 		 								<td> 内容:</td>
-		 								<td><textarea name="content" style="width:70%" rows="30">${news.content }</textarea>
+		 								<td><textarea name="content" style="width:70%" rows="30"></textarea>
 		 								    <p>
 											您当前输入了 <span class="word_count">0</span> 个文字。
 											</p>
+											<div id="ctt" style="display:none">
+												${news.content }
+											</div>
 										</td>
 		 							</tr>
 		 							<tr>
@@ -79,8 +82,9 @@
 		 	<script charset="utf-8" src="${base}/editor/kindeditor-min.js"></script>
 			<script charset="utf-8" src="${base}/editor/lang/zh_CN.js"></script>
 			<script>
+				var editor ;
 				KindEditor.ready(function(K) {
-					K.create('textarea[name="content"]', {
+					editor = K.create('textarea[name="content"]', {
 						allowImageUpload:false,
 						allowFlashUpload:false,
 						allowMediaUpload:false,
@@ -95,6 +99,7 @@
 							K('.word_count').html(this.count('text'));
 						}
 					});
+					editor.html(K("#ctt").html());
 				});
 			</script>
 </body>

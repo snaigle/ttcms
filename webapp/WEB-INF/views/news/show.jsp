@@ -90,6 +90,11 @@
 						allowFlashUpload:false,
 						allowMediaUpload:false,
 						allowFileUpload:false,
+						filterMode:true,
+						items:['fontsize','forecolor','hilitecolor','bold','italic',
+						       'underline','strikethrough','insertorderedlist','insertunorderedlist',
+						       '|','image','flash','media','table',
+						       'emoticons','code'],
 						afterChange : function() {
 							$('.word_count').html(this.count('text'));
 						}
@@ -126,7 +131,7 @@
 							$(":input[name='username']").val("");
 							$(":input[name='code']").val("");
 							editor.html("");
-							$(":button").removeAttr("disable");
+							$(":button").removeAttr("disabled");
 						});
 					});
 				});
