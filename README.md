@@ -1,6 +1,4 @@
-ttcms
+# ttcms
+## JAVA版CMS 
 =====
-
-万能的CMS
-=====
-checkout code from googlecode to github
+会打造一个完善的插件平台
