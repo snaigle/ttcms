@@ -92,7 +92,7 @@
 	<script type="text/javascript" src="http://v2.jiathis.com/code_mini/jiathis_r.js?move=0&amp;uid=1506207" charset="utf-8"></script>
 <!-- JiaThis Button END -->
 <!-- UJian Button BEGIN -->
-	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js?type=slide"></script>
+	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js?type=slide&uid=1506207"></script>
 <!-- UJian Button END -->
 </body>
 </html>
