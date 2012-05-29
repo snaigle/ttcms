@@ -33,8 +33,7 @@ public class NewsController {
 	public Object list(@Param("offset")int offset ,@Param("max") int max ) {
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.orderBy().desc("id"),null, offset, max);
 		for(News news : pf.getResults()){
-			dao.fetchLinks(news, "tags");
-			dao.fetchLinks(news, "categorys");
+			dao.fetchLinks(news, null);
 		}
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
@@ -141,13 +140,13 @@ public class NewsController {
 			username = req.getRemoteHost();
 		}
 		if(Strings.isEmpty(code)){
-			return  "{\"result\":false,\"msg\":\"暗号不能为空\"}";
+			return  "{\"result\":false,\"msg\":\"正等你说接头暗号呢，\"}";
 		}
 		if(newsId ==0){
-			return  "{\"result\":false,\"msg\":\"你丫干毛呢\"}";
+			return  "{\"result\":false,\"msg\":\"和谐社会，繁华天朝\"}";
 		}
 		if(! "宝塔镇河妖".equals(code)){
-			return  "{\"result\":false,\"msg\":\"真笨，暗号都猜不对\"}";
+			return  "{\"result\":false,\"msg\":\"接头暗号好像不对，你还有3次机会\"}";
 		}
 		Comment comment = new Comment();
 		comment.setUsername(username);

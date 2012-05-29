@@ -29,7 +29,13 @@
 			 						</c:forEach>)
 		 						</c:if>
 		 						</small>
-		 						<small><a href="${base }/show/${it.id}">留个盐</a></small>
+		 						<c:if test="${it.comments.size()==0 }">
+		 							<small>还没有奏折,快去占个沙发</small>
+		 						</c:if>
+		 						<c:if test="${it.comments.size()!=0 }">
+		 							<small>有${it.comments.size() }个奏折,去批阅一下</small>
+		 						</c:if>
+		 						<small><a href="${base }/show/${it.id}">戳这里</a></small>
 		 					</p>
 		 			</div>
 		 	</div>
@@ -50,7 +56,7 @@
 		<div class="row">
 			<div class="span12">
  				<div class="badge">
-					没有找到文章		 					
+					没有找到内容,在右下角看看推荐内容吧	 					
  				</div>
 			</div>
 		</div>

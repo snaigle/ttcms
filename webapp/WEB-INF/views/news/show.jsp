@@ -33,11 +33,11 @@
 		 	
 		 	<div class="row-fluid"  id="comment">
 		 		<c:if test="${obj.comments.size() >0 }">
- 					<h2>所有评论</h2>
+ 					<h2>所有奏折</h2>
  					<c:forEach items="${obj.comments }" var="it">
 		 			<div class="span12" style="margin:5px;">
 		 				<p>${it.content}</p>
-		 				<p><small>${it.username}发布于<fmt:formatDate value="${it.createTime }" pattern="yyyy年MM月dd日  HH:mm:ss"/></small></p>
+		 				<p><small>${it.username}上奏于<fmt:formatDate value="${it.createTime }" pattern="yyyy年MM月dd日  HH:mm:ss"/></small></p>
 		 			</div>
 		 			</c:forEach>
 		 		</c:if>
@@ -49,27 +49,23 @@
 		 		<div class="span12" style="margin:5px;">
 		 			
 		 				<form id="aForm">
+	 					<input type="hidden" name="newsId" value="${obj.id }"/>
 			 			<table width="100%">
 			 				<tr>
-			 					<td>用户名*</td>
-			 					<td style="width:90%"><input name="username"/></td>
+			 					<td style="width:90%"><input name="username" placeholder="好汉留个大名吧"/></td>
 			 				</tr>
 			 				<tr>
-			 					<td>暗号*</td>
-			 					<td>
-			 					<input type="hidden" name="newsId" value="${obj.id }"/>
-			 					<input name="code"/>(提示:天***虎)</td>
+			 					<td><input name="code" placeholder="没暗号谁都不让进"/>(提示:天***虎)</td>
 			 				</tr>
 			 				<tr>
-			 					<td>评论*</td>
-			 					<td><textarea name="content" style="width:60%" rows="10"></textarea>
+			 					<td><textarea name="content" style="width:60%" rows="10" placeholder="英雄留下点墨宝吧"></textarea>
 	 								<p>
 										您当前输入了 <span class="word_count">0</span> 个文字。
 									</p>
 			 					</td>
 			 				</tr>
 			 				<tr>
-			 					<td colspan="2" ><input type="button" class="btn" value="提交评论"/></td>
+			 					<td colspan="2" ><input type="button" class="btn" value="臣有本奏"/></td>
 			 				</tr>
 			 			</table>
 			 			</form>
@@ -101,8 +97,12 @@
 					});
 					$(":button").click(function(){
 						editor.sync();
-						if($(":input[name='username']").val() == "" || $(":input[name='code']").val() == "" || editor.html() == ""){
-							alert("都不能为空");
+						if($(":input[name='code']").val() == "" ){
+							alert($(":input[name='code']").attr("placeholder"));
+							return false;
+						}
+						if(editor.html() == ""){
+							alert($(":input[name='content']").attr("placeholder"));
 							return false;
 						}
 						$(":button").attr("disabled","disabled");
@@ -122,11 +122,11 @@
 							}
 							var comment = $("#comment");
 							if($(".badge").length == 0){
-								comment.append("<div class=\"span12\" style=\"margin:5px;\"><p>"+editor.html()+"</p><p><small>"+$(":input[name='username']").val()+"发布于"+getCurrentDate()+"</small></p></div>");
+								comment.append("<div class=\"span12\" style=\"margin:5px;\"><p>"+editor.html()+"</p><p><small>"+($(":input[name='username']").val()==""?"方外野人":$(":input[name='username']").val())+"上奏于"+getCurrentDate()+"</small></p></div>");
 							}else{
 								comment.empty();
-								comment.append("<h2>所有评论</h2>");
-								comment.append("<div class=\"span12\" style=\"margin:5px;\"><p>"+editor.html()+"</p><p><small>"+$(":input[name='username']").val()+"发布于"+getCurrentDate()+"</small></p></div>");
+								comment.append("<h2>所有奏折</h2>");
+								comment.append("<div class=\"span12\" style=\"margin:5px;\"><p>"+editor.html()+"</p><p><small>"+($(":input[name='username']").val()==""?"方外野人":$(":input[name='username']").val())+"上奏于"+getCurrentDate()+"</small></p></div>");
 							}
 							$(":input[name='username']").val("");
 							$(":input[name='code']").val("");
