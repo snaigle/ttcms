@@ -6,9 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="robots" content="index, follow">
-<link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
-<LINK REL="StyleSheet" HREF="<%=request.getContextPath() %>/css/bootstrap.css" TYPE="text/css" MEDIA=screen>
-<title><sitemesh:write property="title"/>--TT64博客</title>
+<link rel="shortcut icon" type="image/x-icon" href="${base }/favicon.ico">
+<LINK REL="StyleSheet" HREF="${base }/css/bootstrap.css" TYPE="text/css" MEDIA=screen>
+<title>天天随笔  <sitemesh:write property="title"/></title>
 <meta name="Keywords" content="天天,TT-CMS,TT64,tiantian,nutz4ror,nor,天天博客,feiyan35488">
 <meta name="Description" content="天天的个人博客(feiyan35488.com),这里有我生活的感悟,也有我平时所用技术的分享,希望大家能有所收获">
 <sitemesh:write property="head"/>
@@ -26,6 +26,11 @@
         <div class="nav-collapse">
           <ul class="nav">
             <li class="active"><a href="${base }/">主页</a></li>
+            <c:if test="${p_menu !=null && p_menu.size>0 }">
+            	<c:forEach items="${p_menu }" var="m">
+            		<li><a href="${m.url.startsWith('http')?m.url:base+m.url }">${m.name }</a>
+            	</c:forEach>
+            </c:if>
           </ul>
           <form class="navbar-search pull-right" action="${base }/search" method="post">
             <input type="text" name="p" class="search-query span2" placeholder="Search">
@@ -99,5 +104,18 @@
 <!-- UJian Button BEGIN -->
 	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js?type=slide&uid=1506207"></script>
 <!-- UJian Button END -->
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-20701558-4']);
+	  _gaq.push(['_setDomainName', 'feiyan35488.com']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	
+	</script>
 </body>
 </html>

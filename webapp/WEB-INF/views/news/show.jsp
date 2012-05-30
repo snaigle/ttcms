@@ -27,6 +27,7 @@
 			 						</c:forEach>)
 		 						</c:if>
 		 						</small>
+		 						<small><a href="${base }/admin/news/edit?id=${obj.id}">陛下的传送门</a></small>
 		 					</p>
 		 			</div>
 		 	</div>
@@ -42,7 +43,7 @@
 		 			</c:forEach>
 		 		</c:if>
 		 		<c:if test="${ obj.comments.size() == 0 }">
-		 			<div class="badge">没有评论</div>
+		 			<div class="badge">没有奏折</div>
 		 		</c:if>
 		 	</div>
 		 	<div class="row-fluid">
@@ -55,7 +56,7 @@
 			 					<td style="width:90%"><input name="username" placeholder="好汉留个大名吧"/></td>
 			 				</tr>
 			 				<tr>
-			 					<td><input name="code" placeholder="没暗号谁都不让进"/>(提示:天***虎)</td>
+			 					<td><input name="code" placeholder="没暗号谁都不让进" style="width:110px;"/><img src="${base}/common/verifyCode?v=1" onclick="this.src = this.src+'1';" style="margin-bottom:9px"/></td>
 			 				</tr>
 			 				<tr>
 			 					<td><textarea name="content" style="width:60%" rows="10" placeholder="英雄留下点墨宝吧"></textarea>

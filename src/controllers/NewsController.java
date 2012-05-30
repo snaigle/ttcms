@@ -3,6 +3,7 @@ package controllers;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
@@ -17,8 +18,10 @@ import org.nutz.mvc.annotation.Param;
 import utils.CV;
 import utils.PluginUtil;
 import utils.form.PageForm;
+import domains.Category;
 import domains.Comment;
 import domains.News;
+import domains.Tag;
 
 public class NewsController {
 
@@ -51,12 +54,12 @@ public class NewsController {
 		}
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.format("id in (select news_id from t_news_tag where tag_id = %d) order by id desc",id ),Cnd.format("id in (select news_id from t_news_tag where tag_id = %d)",id ), offset, max);
 		for(News news : pf.getResults()){
-			dao.fetchLinks(news, "tags");
-			dao.fetchLinks(news, "categorys");
+			dao.fetchLinks(news, null);
 		}
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
 		ctx.set("tagId", id);
+		ctx.set("tag", dao.fetch(Tag.class, id));
 		PluginUtil.getAllCount(dao,ctx);
 		return ctx;
 	}
@@ -71,8 +74,7 @@ public class NewsController {
 		}
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.where("concat(year(create_time),'-',month(create_time))","=", month).desc("id"),Cnd.where("concat(year(create_time),'-',month(create_time))","=", month), offset, max);
 		for(News news : pf.getResults()){
-			dao.fetchLinks(news, "tags");
-			dao.fetchLinks(news, "categorys");
+			dao.fetchLinks(news, null);
 		}
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
@@ -91,12 +93,12 @@ public class NewsController {
 		}
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.format("id in (select news_id from t_news_category where category_id = %d) order by id desc",id ),Cnd.format("id in (select news_id from t_news_category where category_id = %d)",id ), offset, max);
 		for(News news : pf.getResults()){
-			dao.fetchLinks(news, "tags");
-			dao.fetchLinks(news, "categorys");
+			dao.fetchLinks(news, null);
 		}
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
 		ctx.set("catId", id);
+		ctx.set("cat", dao.fetch(Category.class, id));
 		PluginUtil.getAllCount(dao,ctx);
 		return ctx;
 	}
@@ -111,8 +113,7 @@ public class NewsController {
 		}
 		PageForm<News> pf = PageForm.getPaper(dao, News.class,Cnd.where("title","like","%"+p+"%").or("content", "like", "%"+p+"%").desc("id"),Cnd.where("title","like","%"+p+"%").or("content", "like", "%"+p+"%"), offset, max);
 		for(News news : pf.getResults()){
-			dao.fetchLinks(news, "tags");
-			dao.fetchLinks(news, "categorys");
+			dao.fetchLinks(news, null);
 		}
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
@@ -135,7 +136,7 @@ public class NewsController {
 	}
 	@Ok("raw")
 	@POST
-	public Object saveComment(HttpServletRequest req,@Param("username")String username,@Param("code")String code,@Param("content")String content,@Param("newsId")long newsId){
+	public Object saveComment(HttpSession session,HttpServletRequest req,@Param("username")String username,@Param("code")String code,@Param("content")String content,@Param("newsId")long newsId){
 		if(Strings.isEmpty(username)){
 			username = req.getRemoteHost();
 		}
@@ -145,7 +146,7 @@ public class NewsController {
 		if(newsId ==0){
 			return  "{\"result\":false,\"msg\":\"和谐社会，繁华天朝\"}";
 		}
-		if(! "宝塔镇河妖".equals(code)){
+		if(session == null || session.getAttribute("verifyCode") == null || ! ((String)session.getAttribute("verifyCode")).equalsIgnoreCase(code)){
 			return  "{\"result\":false,\"msg\":\"接头暗号好像不对，你还有3次机会\"}";
 		}
 		Comment comment = new Comment();

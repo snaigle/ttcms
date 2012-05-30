@@ -4,6 +4,7 @@ create table if not exists t_news_tag(news_id int , tag_id int);
 create table if not exists category(id int primary key auto_increment,name varchar(200));
 create table if not exists t_news_category(news_id int ,category_id int);
 create table if not exists comment(id int primary key auto_increment,news_id int,username varchar(40),content varchar(200000) ,create_time timestamp);
+create table if not exists menu(id int primary key auto_increment , name varchar(200),url varchar(200), morder int ,mtype varchar(10));
 
 drop view if exists v_tags;
 create view v_tags as select tag.id as id,tag.name as name,count(news.id) as count from tag,t_news_tag,news where tag.id = tag_id and news.id = news_id group by tag.id;

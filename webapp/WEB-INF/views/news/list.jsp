@@ -3,43 +3,12 @@
 <%@ taglib uri="/WEB-INF/fmt.tld" prefix="fmt" %>
 <html>
 	<head>
-		<title>所有文章</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta name="layout" content="main"/>
-		<link rel="stylesheet" href="<%=request.getContextPath() %>/editor/plugins/code/prettify.css" type="text/css"/>
+		<link rel="stylesheet" href="${base }/editor/plugins/code/prettify.css" type="text/css"/>
 	</head>
 <body>
 	<c:if test="${obj.results.size() >0 }">
-		<c:forEach items="${obj.results }"  var="it">
-		 	<div class="row-fluid">
-		 			<div class="span12" >
-		 					<h2>${it.title }</h2>
-		 					<p>
-		 						<small>发布于 <fmt:formatDate value="${it.createTime }" pattern="yyyy年MM月dd日  HH:mm" /></small>
-		 					</p>
-		 					<p style="padding:5px 10px;">${it.content.replaceAll("\\n","<p style=\"padding:0 10px\">") }</p>
-		 					<p>
-		 						<small>发布在
-		 						<c:forEach items="${it.categorys}" var="c">
-		 								${c.name }&nbsp;&nbsp;
-		 						</c:forEach>
-		 						<c:if test="${it.tags.size()>0 }">
-		 							(<c:forEach items="${it.tags }" var="t">
-			 								 ${t.name } 
-			 						</c:forEach>)
-		 						</c:if>
-		 						</small>
-		 						<c:if test="${it.comments.size()==0 }">
-		 							<small>还没有奏折,快去占个沙发</small>
-		 						</c:if>
-		 						<c:if test="${it.comments.size()!=0 }">
-		 							<small>有${it.comments.size() }个奏折,去批阅一下</small>
-		 						</c:if>
-		 						<small><a href="${base }/show/${it.id}">戳这里</a></small>
-		 					</p>
-		 			</div>
-		 	</div>
-		</c:forEach>
+		<jsp:include  page="_listTemplate.jsp"/>
 		<div class="row">
 			<div class="span12 pager">
 				<c:if test="${ ! obj.pager.first}">

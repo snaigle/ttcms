@@ -45,6 +45,11 @@
 		      		<li><a href="${base }/admin/category/create">新建</a></li>
 		      	</ul>
 		    </li>
+	      	<li><a href="${base }/admin/menu/list">菜单</a>
+		      	<ul>
+		      		<li><a href="${base }/admin/menu/create">新建</a></li>
+		      	</ul>
+		    </li>
 	      	<li><a href="${base }/admin/function/init">初始化sql</a></li>
 	      	<li><a href="${base }/admin/function/execsql">exec sql</a></li>
 	      	<li><a href="${base }/admin/function/dbupgrade">数据库升级</a></li>
