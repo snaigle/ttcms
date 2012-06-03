@@ -26,9 +26,9 @@
         <div class="nav-collapse">
           <ul class="nav">
             <li class="active"><a href="${base }/">主页</a></li>
-            <c:if test="${p_menu !=null && p_menu.size>0 }">
+            <c:if test="${p_menu !=null && p_menu.size()>0 }">
             	<c:forEach items="${p_menu }" var="m">
-            		<li><a href="${m.url.startsWith('http')?m.url:base+m.url }">${m.name }</a>
+            		<li><a href="${m.url.startsWith('http')?'':base}${m.url}">${m.name }</a>
             	</c:forEach>
             </c:if>
           </ul>
