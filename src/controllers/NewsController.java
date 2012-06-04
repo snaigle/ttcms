@@ -149,6 +149,7 @@ public class NewsController {
 		if(session == null || session.getAttribute("verifyCode") == null || ! ((String)session.getAttribute("verifyCode")).equalsIgnoreCase(code)){
 			return  "{\"result\":false,\"msg\":\"接头暗号好像不对，你还有3次机会\"}";
 		}
+		session.removeAttribute("verifyCode");
 		Comment comment = new Comment();
 		comment.setUsername(username);
 		comment.setCreateTime(new Date());
