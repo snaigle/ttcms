@@ -138,7 +138,7 @@ public class NewsController {
 	@POST
 	public Object saveComment(HttpSession session,HttpServletRequest req,@Param("username")String username,@Param("code")String code,@Param("content")String content,@Param("newsId")long newsId){
 		if(Strings.isEmpty(username)){
-			username = req.getRemoteHost();
+			username = req.getHeader("X-Real-IP");
 		}
 		if(Strings.isEmpty(code)){
 			return  "{\"result\":false,\"msg\":\"正等你说接头暗号呢，\"}";
