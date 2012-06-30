@@ -1,0 +1,19 @@
+package domains;
+
+public class Orders {
+	private Long id;
+	private String name;
+	private int num;
+	private String address;
+	private String zip;
+	private String phone;
+	private String mobile;
+	private String fahuo;
+	private String con; // 保密
+	private String email;
+	private String qq;
+	private String memo;
+	private String state ; // 0：新订单，1：已发货 2，完成，3 丢弃
+
+
+}

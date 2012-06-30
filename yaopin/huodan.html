@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<title>无标题文档</title>
+</head>
+<style type="text/css">
+<!--
+#form_info table {
+	font-size: 12px;
+	color: #006633;
+}
+#form_info div {
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+}
+.yellow {
+	color: #FF0000;
+}
+#form_info textarea {
+	height: 100px;
+	width: 300px;
+}
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+}
+-->
+</style>
+</head>
+<body>
+<script language="JavaScript">
+<!--
+function checkdata() {
+if( document.form_info.name.value.length=="" ) {
+alert("\请重新输入姓名 !!")
+document.form_info.name.focus();
+return false;
+}
+if(document.form_info.Num.value == "") {
+alert("\请输入需要多少盒 !!")
+document.form_info.Num.focus();
+return false;
+}
+if(document.form_info.address.value == "") {
+alert("\请输入详细地址 !!")
+document.form_info.address.focus();
+return false;
+}
+
+if(document.form_info.mobile.value =="") {
+alert("\请输入手机号码 !!")
+document.form_info.mobile.focus();
+return false;
+}
+}
+-->
+</script>
+
+<form name="form_info"  id="form_info" method="post" action="/orders/save.do" onSubmit="return checkdata()">
+<table width="395" border="1" cellpadding="0" cellspacing="0" bordercolor="#EBE2C7">
+  <tr>
+    <td width="74" height="28" bgcolor="#136709"><div>您的姓名：</div></td>
+    <td width="315" height="28"><input name="name" type="text" size="10"  id="name"/> <span class="yellow">为方便发货。请务必填写真实姓名</span></td>
+  </tr>
+  <tr>
+    <td height="28" bgcolor="#136709"><div>购买数量：</div></td>
+    <td height="28"><input name="num" type="text" size="7" id="Num" />盒*[本数量不包括赠送数量]</td>
+  </tr>
+  <tr>
+    <td height="28" bgcolor="#136709"><div>您的地址：</div></td>
+    <td height="28"><input name="address" type="text" size="40" id="address" />
+      *</td>
+  </tr>
+  <tr>
+    <td height="28" bgcolor="#136709"><div>邮政编码：</div></td>
+    <td height="28"><input name="zip" type="text" size="20" /></td>
+  </tr>
+  <tr>
+    <td height="28" bgcolor="#136709"><div>您的电话：</div></td>
+    <td height="28"><input name="phone" type="text" size="10" />
+       手机：
+         <input name="mobile" type="text" id="mobile" size="20" />
+      *</td>
+  </tr>
+  <tr>
+    <td height="28" bgcolor="#136709"><div>发货方式：</div></td>
+    <td height="28"><input type="radio" name="fahuo" value="款到发货" /> <span class="yellow">款到发货</span>
+        <input name="fahuo" type="radio" value="货到付款" checked /> 
+        <span class="yellow">货到付款</span> * 货到付款速度要慢一些 </td>
+  </tr>
+  <tr>
+    <td height="28" bgcolor="#136709"><div>是否保密：</div></td>
+    <td height="28"><input name="con" type="radio" value="保密" checked />
+      保密 <input type="radio" name="con" value="正常" /> 
+      正常*</td>
+  </tr>
+  <tr>
+    <td height="28" bgcolor="#136709"><div>EMAIL：</div></td>
+    <td height="28"><input name="email" type="text" size="20" /> &nbsp;可不填写</td>
+  </tr>
+  <tr>
+    <td height="28" bgcolor="#136709"><div>QQ：</div></td>
+    <td height="28"><input name="qq" type="text" size="20" />&nbsp;可不填写</td>
+  </tr>
+  <tr>
+    <td height="28" bgcolor="#136709"><div>其他要求：</div></td>
+    <td height="180"><textarea name="memo"></textarea>
+      <br />
+ <input type="submit" name="submit" value="提交订单" />
+      &nbsp; <span class="red">注*请务必详细填写，以免寄错！</span></td>
+  </tr>
+</table>
+</form>
+</body>
+</html>
