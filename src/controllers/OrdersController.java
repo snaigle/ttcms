@@ -7,6 +7,7 @@ import org.nutz.dao.sql.Sql;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Context;
+import org.nutz.mvc.annotation.At;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
@@ -36,17 +37,18 @@ public class OrdersController {
 
 	public void create() {
 	}
-	@Ok(">>:/orders/list")
+	@At({"/orders/save","/common/ordersave"})
+	@Ok("raw")
 	public Object save(@Param("..")Orders orders) {
 		String message = "";
 		if(orders != null){
 				orders.setState("未处理");
 				dao.insert(orders);
-				message = "插入成功";
+				message = "订单提交成功";
 		}else{
 			message = "校验不成功";
 		}
-		return CV.redirect("/huodan.html", message);
+		return message;
 	}
 	public Object edit(@Param("id")long id) {
 		Orders orders = dao.fetch(Orders.class,id);
