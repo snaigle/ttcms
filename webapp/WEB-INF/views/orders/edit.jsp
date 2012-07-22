@@ -4,7 +4,7 @@
 <head>
 <title>编辑${msg["Orders.listName"]}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="layout" content="main">
+<meta name="layout" content="yaopinmain">
 </head>
 <body>
 	<div class="row-fluid">
