@@ -4,3 +4,4 @@ webapp/WEB-INF/classes/
 .settings/
 build/
 target/
+.externalToolBuilders
