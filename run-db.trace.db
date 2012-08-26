@@ -1,0 +1,15 @@
+08-12 10:28:07 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "COMMENT" not found; SQL statement:
+SELECT * FROM comment LIMIT 1 [42102-165]
+08-12 10:28:07 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "TAG" not found; SQL statement:
+SELECT * FROM tag LIMIT 1 [42102-165]
+08-12 10:28:07 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "CATEGORY" not found; SQL statement:
+SELECT * FROM category LIMIT 1 [42102-165]
+08-12 10:28:07 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "NEWS" not found; SQL statement:
+SELECT * FROM news LIMIT 1 [42102-165]
+08-12 10:28:07 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Table "NEWS" not found; SQL statement:
+SELECT * FROM news  ORDER BY id DESC   LIMIT 10 OFFSET 0  [42102-165]

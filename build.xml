@@ -7,7 +7,7 @@
 	<property name="webapp.classes" value="${webapp.dir}/WEB-INF/classes"/>
 	<property name="build.dir" value="build/root"/>
 	
-	<property name="version" value="0.a.3"/>
+	<property name="version" value="0.a.4"/>
 	<path id="libid">
 		<fileset dir="${webapp.lib}">
 			<include name="*.jar"/>
