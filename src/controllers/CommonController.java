@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.nutz.lang.random.StringGenerator;
 import org.nutz.mvc.annotation.Ok;
+import org.nutz.mvc.annotation.Param;
 
 public class CommonController {
 
@@ -26,6 +27,11 @@ public class CommonController {
 			// TODO 这里还不知道该做些什么，出错了也没办法再处理，等用户刷新吧
 		}
 	}
+	/**
+	 * 二维码生成
+	 */
+	public void qrcode(){}
+	
 	private String generateImage(OutputStream os,int width,int height,int keyLength) throws IOException{
 
 		Random r = new Random();

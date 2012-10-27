@@ -4,6 +4,7 @@
 	<head>
 		<title>增加文章</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="stylesheet" type="text/css" href="${base }/css/markdown.css"></link>
 		<meta name="layout" content="adminmain"/>
 	</head>
 <body>
@@ -39,10 +40,13 @@
 		 							</tr>
 		 							<tr>
 		 								<td> 内容:</td>
-		 								<td><textarea name="content" style="width:70%" rows="30"></textarea>  
+		 								<td>
+		 									<div id="wmd-button-bar"></div>
+		 									<textarea id="wmd-input" name="content" style="width:70%" rows="30"></textarea>  
 		 									<p>
 												您当前输入了 <span class="word_count">0</span> 个文字。
 											</p>
+											<div id="wmd-preview" style="display:none"></div>
 		 								</td>
 		 							</tr>
 		 							<tr>
@@ -53,9 +57,16 @@
 		 					 </form>
 		 			</div>
 		 	</div>
+
 		 	<script charset="utf-8" src="${base}/editor/kindeditor-min.js"></script>
 			<script charset="utf-8" src="${base}/editor/lang/zh_CN.js"></script>
+			<script charset="utf-8" src="${base}/js/Markdown.Converter.js"></script>
+			<script charset="utf-8" src="${base}/js/Markdown.Editor.js"></script>
+			<script charset="utf-8" src="${base}/js/Markdown.Sanitizer.js"></script>
+			
 			<script>
+			var type = '${type}';
+			if(type == '1'){
 				KindEditor.ready(function(K) {
 					K.create('textarea[name="content"]', {
 						allowImageUpload:false,
@@ -73,6 +84,12 @@
 						}
 					});
 				});
+			}else if(type == '0' || type == ''){
+				var converter = Markdown.getSanitizingConverter();
+                var editor = new Markdown.Editor(converter);
+                editor.run();
+				
+			}
 			</script>
 </body>
 </html>
