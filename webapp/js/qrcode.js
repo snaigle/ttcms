@@ -384,6 +384,7 @@ var qrcode = function() {
 		};
 
 		_this.addData = function(data) {
+			data = qrcode.utf16to8(data);
 			var newData = qr8BitByte(data);
 			_dataList.push(newData);
 			_dataCache = null;
@@ -470,7 +471,6 @@ var qrcode = function() {
 	//---------------------------------------------------------------------
 	// qrcode.stringToBytes
 	//---------------------------------------------------------------------
-
 	qrcode.stringToBytes = function(s) {
 		var bytes = new Array();
 		for (var i = 0; i < s.length; i += 1) {
@@ -479,7 +479,25 @@ var qrcode = function() {
 		}
 		return bytes;
 	};
-
+ 	qrcode.utf16to8 = function (str) {  
+ 	    var out, i, len, c;  
+ 	    out = "";  
+ 	    len = str.length;  
+ 	    for(i = 0; i < len; i++) {  
+ 	    c = str.charCodeAt(i);  
+ 	    if ((c >= 0x0001) && (c <= 0x007F)) {  
+ 		out += str.charAt(i);  
+ 	    } else if (c > 0x07FF) {  
+ 		out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));  
+ 		out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));  
+ 		out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));  
+ 	    } else {  
+ 		out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));  
+ 		out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));  
+ 	    }  
+ 	    }  
+ 	    return out;  
+ 	};
 	//---------------------------------------------------------------------
 	// qrcode.createStringToBytes
 	//---------------------------------------------------------------------
