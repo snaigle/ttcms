@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.nutz.dao.Chain;
 import org.nutz.dao.Cnd;
 import org.nutz.dao.Dao;
@@ -24,6 +26,10 @@ import domains.Tag;
 
 public class NewsController {
 
+	public static String CONTENT_HTML = "kindeditor"; // HTML
+	public static String CONTENT_MARKDOWN = "markdown";  // MARKDOWN
+	private String contentType = CONTENT_MARKDOWN;// 默认为 markdown编辑器 
+	
 	@Ok(">>:/admin/news/list")
 	public void index(){
 	}
@@ -39,13 +45,16 @@ public class NewsController {
 		}
 		return pf;
 	}
-	public News create() {
+	public Object create() {
 		News news = new News();
 		List<Tag> tags = dao.query(Tag.class, null, null);
 		List<Category> cats = dao.query(Category.class,null,null);
 		news.setTags(tags);
 		news.setCategorys(cats);
-		return news;
+		Context con = Lang.context();
+		con.set("obj", news);
+		con.set("type",contentType);
+		return con;
 	}
 	@Ok(">>:/admin/news/edit?id=${obj}")
 	public Object save(@Param("title")String title,@Param("content")String content,@Param("tags")String tags,@Param("cats")String cats) {
@@ -57,9 +66,15 @@ public class NewsController {
 		}
 		News news = new News();
 		news.setTitle(title);
+		
+		if(Strings.equals(contentType, CONTENT_MARKDOWN)){
+			news.setMkContent(content);
+			//content = content; // TODO 需要将转换为 html, java版markdown; 这里可以对pre进行一些处理,比如添加代码语言，方便进行高亮
+		}
+		// TODO 需要对content 进行安全校验，可以使用jsoup
 		news.setContent(content);
 		news.setCreateTime(new Date());
-		
+		news.setContentType(contentType);
 		List<Tag> tagLists  = null;
 		if(Strings.isEmpty(tags)){
 			tagLists = new ArrayList<Tag>();
@@ -116,6 +131,11 @@ public class NewsController {
 			 return CV.redirect("/admin/news/list","此文章不存在");
 		}
 		news.setTitle(title);
+		if(Strings.equals(news.getContentType(), CONTENT_MARKDOWN)){
+			news.setMkContent(content);
+//			content = content; // TODO 需要将转换为 html, java版markdown; 这里可以对pre进行一些处理,比如添加代码语言，方便进行高亮
+		}
+		// TODO 需要对content 进行安全校验，可以使用jsoup
 		news.setContent(content);
 		Sql tagSql = Sqls.create("delete from t_news_tag where news_id="+news.getId());
 		Sql catSql = Sqls.create("delete from t_news_category  where news_id="+news.getId());
@@ -145,6 +165,14 @@ public class NewsController {
 			dao.insert("t_news_category" , Chain.make("news_id", news.getId()).add("category_id", cc.getId()));
 		}
 		return CV.redirect("/admin/news/edit?id="+news.getId(),"文章更新成功");
+	}
+	public Object changemode(HttpServletRequest request){
+		String refer = request.getHeader("REFERER");
+		contentType = contentType == CONTENT_HTML?CONTENT_MARKDOWN:CONTENT_HTML;
+		if(Strings.isBlank(refer)){
+			refer = "/";
+		}
+		return CV.redirect(refer, Lang.context().set("type", contentType));
 	}
 	@Ok(">>:/admin/news/list")
 	public Object delete(@Param("id")Long id) {

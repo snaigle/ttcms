@@ -537,6 +537,11 @@ pre {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+  border-left:3px solid #6CE26C !important;
+  border:1px solid #DDD;
+  background:#F6F6F6;
+  margin:10px 0;
+  padding:5px;
 }
 code {
   padding: 2px 4px;

@@ -16,8 +16,12 @@ public class News {
 	Long id;		// id
 	@Name
 	String title;		// 标题
+	@Column("mk_content")
+	String mkContent;   // markdown 类型内容
+	@Column("content_type")
+	String contentType; // content type
 	@Column
-	String content;		// 内容
+	String content;		// 内容 html
 	@ManyMany(from="news_id",relation="t_news_tag",target=Tag.class,to="tag_id")
 	List<Tag> tags;	// 关键词
 	@ManyMany(target=Category.class,relation="t_news_category",from="news_id",to="category_id")
@@ -43,6 +47,18 @@ public class News {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getMkContent() {
+		return mkContent;
+	}
+	public void setMkContent(String mkContent) {
+		this.mkContent = mkContent;
+	}
+	public String getContentType() {
+		return contentType;
+	}
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 	public List<Tag> getTags() {
 		return tags;

@@ -36,14 +36,23 @@
 		 								</td>
 		 							</tr>
 		 							<tr>
-		 								<td style="border:1px solid #ccc;margin-top:10px;">
-		 									<div><a id='wmd-btn-edit' href="javascript:changemode('edit');" class="btn disabled">编辑模式</a>&nbsp;&nbsp;&nbsp;&nbsp;<a id="wmd-btn-preview" href="javascript:changemode('preview');" class="btn">预览模式</a></div>
-		 									<div id="wmd-button-bar"></div>
-		 									<textarea placeholder="留下点东西吧" id="wmd-input" name="content" style="width:70%" rows="30"></textarea>  
-		 									<p style="display:none">
-												您当前输入了 <span class="word_count">0</span> 个文字。
-											</p>
-											<div id="wmd-preview" style="display:none" style="min-width:400px;min-height:400px;"></div>
+		 								<td style="margin-top:10px;padding-top:20px;">
+		 									<c:if test="${'markdown'==type }">
+			 									<div style="border-bottom:solid 1px #ccc;width:80%;"><a id='wmd-btn-edit' href="javascript:changemode('edit');" class="btn disabled">编辑模式</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			 									<a id="wmd-btn-preview" href="javascript:changemode('preview');" class="btn">预览模式</a>
+			 									<a href="${base }/admin/news/changemode" class="btn" style="float:right;">切换编辑器</a>
+			 									</div>
+			 									<div id="wmd-button-bar" style="border:none;width:70%;"></div>
+			 									<textarea placeholder="留下点东西吧" id="wmd-input" name="content" style="width:70%;border:solid 1px black;" rows="30"></textarea>  
+												<div id="wmd-preview" style="display:none;width:70%;height:550px;border:dashed 1px #ccc;margin-top:10px;padding:5px;"></div>
+											</c:if>
+											<c:if test="${'kindeditor'==type }">
+												<div style="border-bottom:solid 1px #ccc;width:80%;"><a href="${base }/admin/news/changemode" class="btn" style="float:right;">切换编辑器</a></div>
+												<textarea placeholder="留下点东西吧" name="content" style="width:70%;border:solid 1px black;" rows="30"></textarea>  
+			 									<p>
+													您当前输入了 <span class="word_count">0</span> 个文字。
+												</p>
+											</c:if>
 		 								</td>
 		 							</tr>
 		 							<tr>
@@ -54,54 +63,56 @@
 		 					 </form>
 		 			</div>
 		 	</div>
-
-		 	<script charset="utf-8" src="${base}/editor/kindeditor-min.js"></script>
-			<script charset="utf-8" src="${base}/editor/lang/zh_CN.js"></script>
-			<script charset="utf-8" src="${base}/js/Markdown.Converter.js"></script>
-			<script charset="utf-8" src="${base}/js/Markdown.Editor.js"></script>
-			<script charset="utf-8" src="${base}/js/Markdown.Sanitizer.js"></script>
-			
-			<script>
-			var type = '${type}';
-			if(type == '1'){
-				KindEditor.ready(function(K) {
-					K.create('textarea[name="content"]', {
-						allowImageUpload:false,
-						allowFlashUpload:false,
-						allowMediaUpload:false,
-						allowFileUpload:false,
-						filterMode:true,
-						items:['source','|','undo','redo','|','template','plainpaste','wordpaste','quickformat',
-						       '|','formatblock','fontname','fontsize','forecolor','hilitecolor','bold','italic',
-						       'underline','strikethrough','link','unlink','insertorderedlist','insertunorderedlist',
-						       '|','image','flash','media','table',
-						       'emoticons','map','code','|','fullscreen'],
-						afterChange : function() {
-							K('.word_count').html(this.count('text'));
-						}
+			<c:if test="${'kindeditor'==type }">
+			 	<script charset="utf-8" src="${base}/editor/kindeditor-min.js"></script>
+				<script charset="utf-8" src="${base}/editor/lang/zh_CN.js"></script>
+				<script type="text/javascript">
+					KindEditor.ready(function(K) {
+						K.create('textarea[name="content"]', {
+							allowImageUpload:false,
+							allowFlashUpload:false,
+							allowMediaUpload:false,
+							allowFileUpload:false,
+							filterMode:true,
+							items:['source','|','undo','redo','|','template','plainpaste','wordpaste','quickformat',
+							       '|','formatblock','fontname','fontsize','forecolor','hilitecolor','bold','italic',
+							       'underline','strikethrough','link','unlink','insertorderedlist','insertunorderedlist',
+							       '|','image','flash','media','table',
+							       'emoticons','map','code','|','fullscreen'],
+							afterChange : function() {
+								K('.word_count').html(this.count('text'));
+							}
+						});
 					});
-				});
-			}else if(type == '0' || type == ''){
+				</script>
+			</c:if>
+			<c:if test="${'markdown'==type }">
+				<script charset="utf-8" src="${base}/js/Markdown.Converter.js"></script>
+				<script charset="utf-8" src="${base}/js/Markdown.Editor.js"></script>
+				<script charset="utf-8" src="${base}/js/Markdown.Sanitizer.js"></script>
+				<script type="text/javascript">
 				var converter = Markdown.getSanitizingConverter();
                 var editor = new Markdown.Editor(converter);
                 editor.run();
-			}
-			function $id(id){return document.getElementById(id);}
-			function changemode(mode){
-				if(mode == 'edit'){
-					$id("wmd-btn-edit").className='btn disabled';
-					$id("wmd-btn-preview").className='btn active';
-					$id("wmd-button-bar").style.display='';
-					$id("wmd-input").style.display='';
-					$id("wmd-preview").style.display='none';
-				}else if(mode == 'preview'){
-					$id("wmd-btn-edit").className='btn active';
-					$id("wmd-btn-preview").className='btn disabled';
-					$id("wmd-button-bar").style.display='none';
-					$id("wmd-input").style.display='none';
-					$id("wmd-preview").style.display='';
-				}
-			}
-			</script>
+                </script>
+                <script type="text/javascript">
+					function $id(id){return document.getElementById(id);}
+					function changemode(mode){
+						if(mode == 'edit'){
+							$id("wmd-btn-edit").className='btn disabled';
+							$id("wmd-btn-preview").className='btn active';
+							$id("wmd-button-bar").style.display='';
+							$id("wmd-input").style.display='';
+							$id("wmd-preview").style.display='none';
+						}else if(mode == 'preview'){
+							$id("wmd-btn-edit").className='btn active';
+							$id("wmd-btn-preview").className='btn disabled';
+							$id("wmd-button-bar").style.display='none';
+							$id("wmd-input").style.display='none';
+							$id("wmd-preview").style.display='';
+						}
+					}
+				</script>
+			</c:if>
 </body>
 </html>
