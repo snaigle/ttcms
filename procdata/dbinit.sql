@@ -13,3 +13,6 @@ drop view if exists v_cats;
 create view v_cats as select category.id as id,category.name as name,count(news.id) as count from category,t_news_category ,news where category.id = category_id and news.id = news_id group by category.id;
 drop view if exists v_date;
 create view v_date as select concat(year(create_time),'-',month(create_time)) as month , count(id) as count from news group by month order by month desc ;
+
+alter table news add content_type varchar(20);
+alter table news add mk_content varchar(20000000);

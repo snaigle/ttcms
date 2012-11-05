@@ -18,6 +18,8 @@ import org.nutz.lang.util.Context;
 import org.nutz.mvc.annotation.Ok;
 import org.nutz.mvc.annotation.Param;
 
+import com.petebevin.markdown.MarkdownProcessor;
+
 import utils.CV;
 import utils.form.PageForm;
 import domains.Category;
@@ -70,6 +72,7 @@ public class NewsController {
 		if(Strings.equals(contentType, CONTENT_MARKDOWN)){
 			news.setMkContent(content);
 			//content = content; // TODO 需要将转换为 html, java版markdown; 这里可以对pre进行一些处理,比如添加代码语言，方便进行高亮
+			content = markdown.markdown(content);
 		}
 		// TODO 需要对content 进行安全校验，可以使用jsoup
 		news.setContent(content);
@@ -133,7 +136,7 @@ public class NewsController {
 		news.setTitle(title);
 		if(Strings.equals(news.getContentType(), CONTENT_MARKDOWN)){
 			news.setMkContent(content);
-//			content = content; // TODO 需要将转换为 html, java版markdown; 这里可以对pre进行一些处理,比如添加代码语言，方便进行高亮
+			content = markdown.markdown(content);
 		}
 		// TODO 需要对content 进行安全校验，可以使用jsoup
 		news.setContent(content);
@@ -202,5 +205,9 @@ public class NewsController {
 	private Dao dao;
 	public void setDao(Dao dao){
 		this.dao = dao;
+	}
+	private MarkdownProcessor markdown;
+	public void setMarkdown(MarkdownProcessor markdown){
+		this.markdown = markdown;
 	}
 }

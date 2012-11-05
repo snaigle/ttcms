@@ -12,5 +12,8 @@ var ioc={
 	dao:{
 		type:"org.nutz.dao.impl.NutDao",
 		args:[{refer:"dataSource"}]
+	},
+	markdown:{
+		type:"com.petebevin.markdown.MarkdownProcessor"
 	}
 }
