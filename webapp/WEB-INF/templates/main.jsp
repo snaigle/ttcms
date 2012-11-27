@@ -97,25 +97,5 @@
 		Powered by <a href="mailto:feiyan35488@gmail.com" target="blank">天天</a><br/>
 		COPYRIGHT 2012.4- BY TIANTIAN
 	</footer>
-	<!-- JiaThis Button BEGIN -->
-	<script type="text/javascript">var jiathis_config = {data_track_clickback:true};</script>
-	<script type="text/javascript" src="http://v2.jiathis.com/code_mini/jiathis_r.js?move=0&amp;uid=1506207" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-<!-- UJian Button BEGIN -->
-	<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js?type=slide&uid=1506207"></script>
-<!-- UJian Button END -->
-	<script type="text/javascript">
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-20701558-4']);
-	  _gaq.push(['_setDomainName', 'feiyan35488.com']);
-	  _gaq.push(['_trackPageview']);
-	
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-	
-	</script>
 </body>
 </html>
