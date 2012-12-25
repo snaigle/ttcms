@@ -21,6 +21,7 @@ public class XmlrpcClient {
 		try {
 			config.setServerURL(new URL(host));
 			config.setEncoding("utf-8");
+			logger.info("xmlrpc client for host<"+host+"> init success");
 		} catch (MalformedURLException e) {
 			logger.error("init xmlrpc client for <" + host + "> error");
 			config = null;

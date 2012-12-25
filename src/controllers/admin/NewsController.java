@@ -116,11 +116,15 @@ public class NewsController {
 					Chain.make("news_id", news.getId()).add("tag_id",
 							tt.getId()));
 		}
+		boolean oschina = false;
 		for (Category cc : catLists) {
 			dao.insert("t_news_category", Chain.make("news_id", news.getId())
 					.add("category_id", cc.getId()));
+			if (cc.getName().equals("oschina")) {
+				oschina = true;
+			}
 		}
-		if (cats != null && cats.contains("oschina")) {
+		if (oschina) {
 			Osc.publish(news.getTitle(), news.getContent());
 		}
 		return CV.redirect("/admin/news/edit?id=" + news.getId(), "文章发布成功");
