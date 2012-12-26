@@ -1,32 +1,31 @@
 <?xml version="1.0" ?>
 <project default="war" name="ttcms" basedir=".">
-	<property name="src.dir" value="src"/>
-	<property name="resources.dir" value="resources"/>
-	<property name="webapp.dir" value="webapp"/>
-	<property name="webapp.lib" value="${webapp.dir}/WEB-INF/lib"/>
-	<property name="webapp.classes" value="${webapp.dir}/WEB-INF/classes"/>
-	<property name="build.dir" value="build/root"/>
-	
-	<property name="version" value="0.a.4"/>
+	<property name="src.dir" value="src" />
+	<property name="resources.dir" value="resources" />
+	<property name="webapp.dir" value="webapp" />
+	<property name="webapp.lib" value="${webapp.dir}/WEB-INF/lib" />
+	<property name="webapp.classes" value="${webapp.dir}/WEB-INF/classes" />
+	<property name="build.dir" value="build/root" />
+
+	<property name="version" value="0.a.6" />
 	<path id="libid">
 		<fileset dir="${webapp.lib}">
-			<include name="*.jar"/>
+			<include name="*.jar" />
 		</fileset>
 	</path>
-    <target name="clean">
-        <delete dir="${build.dir}"/>
-        <delete dir="${webapp.classes}"/>
-    </target>
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${webapp.classes}" />
+	</target>
 	<target name="prepare" depends="clean">
-		<mkdir dir="${build.dir}"/>	
-		<mkdir dir="${webapp.classes}"/>	
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${webapp.classes}" />
 	</target>
 	<target name="build-class" depends="prepare">
-		<javac srcdir="${src.dir}" encoding="utf-8"
-         destdir="${webapp.classes}" includeantruntime="true" includes="**/*.java" debug="on">
+		<javac srcdir="${src.dir}" encoding="utf-8" destdir="${webapp.classes}" includeantruntime="true" includes="**/*.java" debug="on">
 			<classpath>
 				<fileset dir="${webapp.lib}">
-					<include name="*.jar"/>
+					<include name="*.jar" />
 				</fileset>
 			</classpath>
 		</javac>
@@ -43,11 +42,11 @@
 	</target>
 	<target name="war" depends="build-class,build-web">
 		<tstamp prefix="build.">
-			<format property="time" pattern="yyyyMMddHHmmssSSS"/>
+			<format property="time" pattern="yyyyMMddHHmmssSSS" />
 		</tstamp>
 		<war warfile="target/${ant.project.name}-${version}-${build.time}.war" basedir="${build.dir}">
-			<exclude name="**/*junit*.jar"/>
-			<exclude name="**/servlet-api*.jar"/>
+			<exclude name="**/*junit*.jar" />
+			<exclude name="**/servlet-api*.jar" />
 		</war>
 	</target>
 	<target name="procdata">
@@ -58,8 +57,8 @@
 	</target>
 	<target name="procwar" depends="build-class,procdata,build-web">
 		<war warfile="target/${ant.project.name}-${version}.war" basedir="${build.dir}">
-			<exclude name="**/*junit*.jar"/>
-			<exclude name="**/servlet-api*.jar"/>
+			<exclude name="**/*junit*.jar" />
+			<exclude name="**/servlet-api*.jar" />
 		</war>
 	</target>
 </project>

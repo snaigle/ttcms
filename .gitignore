@@ -5,3 +5,4 @@ webapp/WEB-INF/classes/
 build/
 target/
 .externalToolBuilders
+work/
