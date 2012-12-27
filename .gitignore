@@ -6,3 +6,4 @@ build/
 target/
 .externalToolBuilders
 work/
+.gradle/
