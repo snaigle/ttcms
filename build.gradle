@@ -4,20 +4,31 @@ apply plugin: 'jetty'
 
 
 sourceCompatibility = 1.6
-version = '0.a.8'
+version = '0.a.9'
+
+defaultTasks 'build'
 
 repositories {
-	mavenLocal()
-	mavenCentral()
+    flatDir(dirs:"lib")
+    mavenLocal()
+    mavenCentral()
 }
-
+tasks.withType(Compile) {  
+    options.encoding = "UTF-8"  
+} 
 dependencies {
-	
+    providedCompile "javax.servlet:servlet-api:2.5"
+    compile  "commons-logging:commons-logging:1.1"
+    compile  "com.alibaba:druid:0.2.5"
+    compile  "org.freemarker:freemarker:2.3.15"
+    compile  "com.h2database:h2:1.3.165"
+    compile  "org.jsoup:jsoup:1.4.1"
+    compile  "jstl:jstl:1.1.1"
+    compile  "taglibs:standard:1.1.1"
+    compile  "log4j:log4j:1.2.14"
+    compile  ":markdown:0.4.0"
+    compile  ":nor:1.b.44-4"
+    compile  "org.sitemesh:sitemesh:3.0-alpha-2"
+    compile  "org.apache.xmlrpc:xmlrpc-client:3.1.3"
+    testCompile "junit:junit:4.8.1"
 }	
-uploadArchives {
-	repositories {
-		flatDir {
-			dirs 'target'
-		}
-	}
-}
