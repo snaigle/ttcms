@@ -1,9 +1,13 @@
 # ttcms [![Build Status](https://travis-ci.org/feiyan35488/ttcms.png?branch=master)](https://travis-ci.org/feiyan35488/ttcms)
 ## JAVA版CMS 
 =====
-会打造一个完善的插件平台
 
-*发现bug， mainmodule中的方法不会加载，貌似在添加controller时给过滤了*
-
-添加markdown editor,需要在文章表中多添加一个字段用来存放markdown内容
-添加二维码生成页面
+目前有功能：
+  * 文章管理和发文章
+  * 分类管理
+  * 标签管理
+  * 支持kindEditor和markdown两种编辑器
+  * 有js 生成qrcode
+  * 可同步发送文章到 oschina中
+  * 
+不过blog都搬到github上了，这里不打算更新了，vps也能减小很多负担
