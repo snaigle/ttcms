@@ -1,4 +1,4 @@
-# ttcms
+# ttcms [![Build Status](https://travis-ci.org/feiyan35488/ttcms.png?branch=master)](https://travis-ci.org/feiyan35488/ttcms)
 ## JAVA版CMS 
 =====
 会打造一个完善的插件平台
