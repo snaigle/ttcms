@@ -49,3 +49,14 @@ processResources {
 	}
 	ant.copy(file:'src/main/java/.nutz.resource.mark',todir:'build/classes/main')
 }
+jettyRun {
+	daemon = true
+	httpPort = 8082
+	stopPort = 9092
+	stopKey = "stop-key"
+	contextPath = "/"
+}
+jettyStop {
+	stopKey = "stop-key"
+	stopPort = 9092	
+}
