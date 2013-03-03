@@ -43,6 +43,7 @@ public class NewsController {
 		}
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
+		PluginUtil.getAllCount(dao, ctx);
 		return ctx;
 	}
 
@@ -74,6 +75,7 @@ public class NewsController {
 		ctx.set("obj", pf);
 		ctx.set("tagId", id);
 		ctx.set("tag", dao.fetch(Tag.class, id));
+		PluginUtil.getAllCount(dao, ctx);
 		return ctx;
 	}
 
@@ -101,6 +103,7 @@ public class NewsController {
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
 		ctx.set("month", month);
+		PluginUtil.getAllCount(dao, ctx);
 		return ctx;
 	}
 
@@ -132,6 +135,7 @@ public class NewsController {
 		ctx.set("obj", pf);
 		ctx.set("catId", id);
 		ctx.set("cat", dao.fetch(Category.class, id));
+		PluginUtil.getAllCount(dao, ctx);
 		return ctx;
 	}
 
@@ -159,6 +163,7 @@ public class NewsController {
 		Context ctx = Lang.context();
 		ctx.set("obj", pf);
 		ctx.set("p", p);
+		PluginUtil.getAllCount(dao, ctx);
 		return ctx;
 	}
 
@@ -168,15 +173,16 @@ public class NewsController {
 		if (news == null) {
 			return CV.redirect("/", "此文章不存在");
 		} else {
-			News prev = dao.fetch( News.class, Cnd.where("id", ">", id).asc("id")
-					);
-			News next = dao.fetch(News.class, Cnd.where("id", "<", id).desc("id")
-					);
+			News prev = dao.fetch(News.class, Cnd.where("id", ">", id)
+					.asc("id"));
+			News next = dao.fetch(News.class,
+					Cnd.where("id", "<", id).desc("id"));
 			dao.fetchLinks(news, null);
 			Context ctx = Lang.context();
 			ctx.set("obj", news);
 			ctx.set("prev", prev);
 			ctx.set("next", next);
+			PluginUtil.getAllCount(dao, ctx);
 			return ctx;
 		}
 	}
