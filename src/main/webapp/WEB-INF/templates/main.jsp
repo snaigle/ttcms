@@ -1,101 +1,106 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="/WEB-INF/c.tld" prefix="c" %>
-<%@ taglib uri="/WEB-INF/fmt.tld" prefix="fmt" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="/WEB-INF/c.tld" prefix="c"%>
+<%@ taglib uri="/WEB-INF/fmt.tld" prefix="fmt"%>
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7 ie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8 ie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9 ie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="robots" content="index, follow">
-<link rel="shortcut icon" type="image/x-icon" href="${base }/favicon.ico">
-<LINK REL="StyleSheet" HREF="${base }/css/bootstrap.css" TYPE="text/css" MEDIA=screen>
-<title>天天随笔  <sitemesh:write property="title"/></title>
-<meta name="Keywords" content="天天,TT-CMS,TT64,tiantian,nutz4ror,nor,天天博客,feiyan35488">
-<meta name="Description" content="天天的个人博客(feiyan35488.com),这里有我生活的感悟,也有我平时所用技术的分享,希望大家能有所收获">
-<sitemesh:write property="head"/>
+<meta name="Keywords" content="天天,TT-CMS,TT64,tiantian,天天博客,feiyan35488">
+<meta name="Description"
+	content="天天的个人博客(feiyan35488.com),这里有我生活的感悟,也有我平时所用技术的分享,希望大家能有所收获">
+<title><sitemesh:write property="title" /></title>
+<link rel="stylesheet" href="${base }/css/prettify.css" type="text/css" />
+<link href='${base }/css/style.css?v=20130115' rel="stylesheet"
+	media="all">
+<sitemesh:write property="head" />
 </head>
 <body>
-	<div class="navbar">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <a class="brand" href="${base }/">TT-CMS</a>
-        <div class="nav-collapse">
-          <ul class="nav">
-            <li class="active"><a href="${base }/">主页</a></li>
-            <c:if test="${p_menu !=null && p_menu.size()>0 }">
-            	<c:forEach items="${p_menu }" var="m">
-            		<li><a href="${m.url.startsWith('http')?'':base}${m.url}">${m.name }</a>
-            	</c:forEach>
-            </c:if>
-          </ul>
-          <form class="navbar-search pull-right" action="${base }/search" method="post">
-            <input type="text" name="p" class="search-query span2" placeholder="Search">
-          </form>
-          <ul class="nav pull-right">
-            <li><a href="${base }/admin/news/list">管理</a></li>
-            <li class="divider-vertical"></li>
-          </ul>
-        </div><!-- /.nav-collapse -->
-      </div>
-    </div><!-- /navbar-inner -->
-  </div>
-	<div class="container-fluid">
-	  <div class="row-fluid">
-	    <div class="span10">
-	      <!--Body content-->
-			<sitemesh:write property="body"/>
-	    </div>
-	    <div class="span2">
-	      <!--Sidebar content-->
-	      <div class="row-fluid">
-	      	<div class="span12">
-	      		<p class="title"><h3>文章归档</h3></p>
-	      		<c:if test="${p_date != null && p_date.size() >0 }">
-		      		<ul class="unstyled">
-		      			<c:forEach items="${p_date }" var="pd">
-		      				<li><a href="${base }/month/${pd.getString("month")}">${pd.getString("month")}</a>(${pd.getString("count") })</li>
-		      			</c:forEach>
-		      		</ul>
-	      		</c:if>
-	      	</div>
-	      </div>
-	      <div class="row-fluid">
-	      	<div class="span12">
-	      		<p class="title"><h3>标签云</h3></p>
-	      		<c:if test="${p_tags != null && p_tags.size() >0 }">
-		      			<c:forEach items="${p_tags }" var="pt" varStatus="vs">
-		      				<a href="${base }/tag/${pt.getInt("id")}" style="font-size:1${vs.index%3==0?0:(vs.index%3==1?5:9)}0%;color:${vs.index%3 ==0?'black':(vs.index%3==1?'green':'blue') }">${pt.getString("name")}(${pt.getString("count") })</a>
-		      				<c:if test="${! st.last }">
-								&nbsp;&nbsp;&nbsp;&nbsp;		      					
-		      				</c:if>
-		      				</li>
-		      			</c:forEach>
-		      			<p>
-	      		</c:if>
-	      	</div>
-	      </div>
-	      <div class="row-fluid">
-	      	<div class="span12">
-	      		<p class="title"><h3>分类</h3></p>
-	      		<c:if test="${p_cats != null && p_cats.size() >0 }">
-		      		<ul class="unstyled">
-		      			<c:forEach items="${p_cats }" var="pc">
-		      				<li><a href="${base }/cat/${pc.getString("id")}">${pc.getString("name")}</a>(${pc.getString("count") })</li>
-		      			</c:forEach>
-		      		</ul>
-	      		</c:if>
-	      	</div>
-	      </div>
-	    </div>
-	  </div>
+	<div id="page" class="hentry">
+		<header class="the-header">
+			<div class="unit-head">
+				<div class="unit-inner unit-head-inner">
+					<nav class="nav-global">
+						<ul>
+							<li class="logo"><a href="${base }/">坚强的蜗牛</a></li>
+							<c:if test="${p_menu !=null}">
+								<c:forEach items="${p_menu }" var="m">
+									<li class="category"><a href="${base}${m.url}">${m.name}</a></li>
+								</c:forEach>
+							</c:if>
+						</ul>
+					</nav>
+				</div>
+				<!-- unit-inner -->
+			</div>
+			<!-- unit-head -->
+		</header>
+		<div class="body" role="main">
+			<div class="unit-body">
+				<div class="unit-inner unit-body-inner">
+					<div class="entry-content">
+						<sitemesh:write property="body" />
+					</div>
+				</div>
+				<!-- unit-inner -->
+			</div>
+			<!-- unit-body -->
+		</div>
+		<!-- body -->
+		<footer class="the-footer">
+			<div class="unit-foot">
+				<div class="unit-inner unit-foot-inner">
+					<div class="misc vcard">
+						<h4>关于</h4>
+						<ul>
+							<li class="contact"><address>
+									<span class="author fn n">天天</span> - <span class="fn email">feiyan35488[@]gmail.com</span>
+								</address></li>
+							<li class="rss"><a href="#">订阅</a></li>
+						</ul>
+					</div>
+					<!-- misc -->
+					<p class="licence">
+						Theme: based on <a href="http://jekyllbootstrap.com/">Jekyll-bootstrap</a>.<br>
+						Powered by <a href="https://github.com/mojombo/jekyll">Jekyll</a>.
+
+
+
+					
+					<p>
+						页面生成于
+						<%=new java.text.SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss:SSS")
+					.format(new java.util.Date())%></p>
+					</p>
+				</div>
+				<!-- unit-foot-inner -->
+			</div>
+			<!-- unit-foot -->
+		</footer>
 	</div>
-	<footer style="text-align:center;">
-		Powered by <a href="mailto:feiyan35488@gmail.com" target="blank">天天</a><br/>
-		COPYRIGHT 2012.4- BY TIANTIAN
-	</footer>
+	<!-- page -->
+	<script type="text/javascript" src="${base }/js/prettify.js"></script>
+	<script type="text/javascript">
+		prettyPrint();
+	</script>
+	<script type="text/javascript">
+		/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+		var disqus_shortname = 'strongsnail'; // required: replace example with your forum shortname
+
+		/* * * DON'T EDIT BELOW THIS LINE * * */
+		(function() {
+			var s = document.createElement('script');
+			s.async = true;
+			s.type = 'text/javascript';
+			s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+			(document.getElementsByTagName('HEAD')[0] || document
+					.getElementsByTagName('BODY')[0]).appendChild(s);
+		}());
+	</script>
 </body>
 </html>

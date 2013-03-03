@@ -4,7 +4,7 @@ var ioc={
 		events:{depose:"close"},
 		fields:{
 			driverClassName:"org.h2.Driver",
-			url:"jdbc:h2:/home/tt/usbsync/procdb;AUTO_SERVER=TRUE",
+			url:"jdbc:h2:/home/tt/java/ttcms/trunk/ttcms;AUTO_SERVER=TRUE",
 			username:"sa",
 			password:""
 		}

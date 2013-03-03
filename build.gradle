@@ -1,8 +1,5 @@
-import org.gradle.api.file.FileCollection;
-
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
-apply plugin: 'jetty'
 
 
 sourceCompatibility = 1.6
@@ -49,14 +46,7 @@ processResources {
 	}
 	ant.copy(file:'src/main/java/.nutz.resource.mark',todir:'build/classes/main')
 }
-jettyRun {
-	daemon = true
-	httpPort = 8082
-	stopPort = 9092
-	stopKey = "stop-key"
-	contextPath = "/"
-}
-jettyStop {
-	stopKey = "stop-key"
-	stopPort = 9092	
+task copyJars(type:Copy){
+	from configurations.runtime
+	into buildDir.name+'/dist-libs'
 }
