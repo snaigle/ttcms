@@ -11,7 +11,7 @@ public class XmlrpcClientTest {
 
     String oschina = "http://my.oschina.net/action/xmlrpc";
 
-    @Test
+ //   @Test
     public void testExecute() {
         XmlrpcClient client = new XmlrpcClient(oschina);
         Map<String, Object> map = new HashMap<String, Object>();
